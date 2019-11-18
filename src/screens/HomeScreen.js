@@ -9,20 +9,29 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { connect } from 'react-redux'
 
-export default function HomeScreen() {
+
+ class HomeScreen extends React.Component {
+  render(){
+    console.log('state', this.props.state)
   return (
     <View style={styles.container}>
       <ScrollView>
-        <Text>Pawnder</Text>
       </ScrollView>
     </View>
   );
+}
 }
 
 HomeScreen.navigationOptions = {
   header: null,
 };
+
+const mapStateToProps = (state) => {
+  return { state }
+}
+export default connect(mapStateToProps)(HomeScreen)
 
 const styles = StyleSheet.create({
   container: {
