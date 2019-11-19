@@ -8,9 +8,9 @@ import { PersistGate } from 'redux-persist/integration/react'
 
 import AppNavigator from './navigation/AppNavigator';
 
-export default function App() {
-  console.log('test app', persistor)
-
+export default class App extends React.Component {
+    
+    render(){
     return (
       <Provider store={store}>
       <PersistGate persistor={persistor}>
@@ -18,7 +18,9 @@ export default function App() {
       </PersistGate>
       </Provider>
     );
-  }
+  }}
+
+
 
 const styles = StyleSheet.create({
   container: {

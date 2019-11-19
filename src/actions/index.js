@@ -4,3 +4,9 @@ export const changeName = (name) => {
         payload: name
     }
 }
+export const login = (login) => {
+    return{
+        type: "LOGIN",
+        payload: login
+    }
+}
