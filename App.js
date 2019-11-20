@@ -1,33 +1,71 @@
-import { AppLoading } from 'expo';
-
 import React, { useState } from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { StyleSheet } from 'react-native';
 
-import AppNavigator from './navigation/AppNavigator';
+//Redux
+import { store, persistor } from './src/store'
+import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
 
-export default function App(props) {
-  const [isLoadingComplete, setLoadingComplete] = useState(false);
+// import AppNavigator from './navigation/AppNavigator';
 
-    return (
-      <View style={styles.container}>
-        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-        <AppNavigator />
-      </View>
-    );
+import { createAppContainer, createSwitchNavigator} from 'react-navigation'
+
+import LoginScreen from './src/screens/LoginScreen'
+import LoadingScreen from './src/screens/LoadingScreen'
+import HomeScreen from './src/screens/HomeScreen'
+
+import firebase from 'firebase'
+import firebaseConfig from './src/config'
+firebase.initializeApp(firebaseConfig)
+
+
+const AppSwitchNavigator = createSwitchNavigator({
+  LoadingScreen:LoadingScreen,
+  LoginScreen:LoginScreen,
+  HomeScreen:HomeScreen
+})
+
+const AppNavigator = createAppContainer(AppSwitchNavigator)
+
+export default class App extends React.Component {
+
+  componentDidMount(){
+
   }
 
-function handleLoadingError(error) {
-  console.warn(error);
-}
+  
+    
+    render(){
+    return (
+      <Provider store={store}>
+      <PersistGate persistor={persistor}>
+      <AppNavigator/>
+      </PersistGate>
+      </Provider>
+    );
+  }}
 
-function handleFinishLoading(setLoadingComplete) {
-  setLoadingComplete(true);
-}
-
+//Styles
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
+      flex: 1,
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent:'center',
   },
-});
+
+})
+
+
+
+// export default class App extends React.Component {
+    
+//   render(){
+//   return (
+//     <Provider store={store}>
+//     <PersistGate persistor={persistor}>
+//     <AppNavigator/>
+//     </PersistGate>
+//     </Provider>
+//   );
+// }}
