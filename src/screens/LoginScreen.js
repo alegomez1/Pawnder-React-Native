@@ -34,8 +34,7 @@ class LoginScreen extends React.Component {
             var credential = firebase.auth.GoogleAuthProvider.credential(
                 googleUser.idToken,
                 googleUser.accessToken)
-            // Sign in with credential from the Google user.
-
+            // Sign in with credential from the Google user
             firebase.auth().signInWithCredential(credential).then((result)=>{
                 console.log('user signed in', result)
                 if(result.additionalUserInfo.isNewUser){
