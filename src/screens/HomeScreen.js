@@ -14,32 +14,28 @@ import { connect } from 'react-redux'
 import {login} from '../actions'
 import Signup from './Signup';
 
+import firebase from 'firebase'
+
 
  class HomeScreen extends React.Component {
   render(){
 
-    console.log('props---', this.props)
+  //   console.log('props---', this.props)
   let loggedIn = this.props.state.isLoggedIn
-  console.log('logged in:', loggedIn)
+  // console.log('logged in:', loggedIn)
 
-  if(loggedIn){
-    return(
-      <View style={styles.container}>
-        <Text>Logged in!</Text>
-        <TouchableOpacity onPress={()=>this.props.login(false)}>
-        <Text>Logout</Text>
 
-        </TouchableOpacity>
-      </View>
-    )
-  }
-  else{
   return (
-    <Signup/>
+    <View style={styles.container}>
+      <TouchableOpacity
+      onPress={()=> firebase.auth().signOut()}>
+        <Text>Sign out</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 }
-}
+
 
 HomeScreen.navigationOptions = {
   header: null,
