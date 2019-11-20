@@ -15,7 +15,7 @@ import LoadingScreen from './src/screens/LoadingScreen'
 import HomeScreen from './src/screens/HomeScreen'
 
 import firebase from 'firebase'
-import firebaseConfig from './config'
+import firebaseConfig from './src/config'
 firebase.initializeApp(firebaseConfig)
 
 
@@ -28,6 +28,10 @@ const AppSwitchNavigator = createSwitchNavigator({
 const AppNavigator = createAppContainer(AppSwitchNavigator)
 
 export default class App extends React.Component {
+
+  componentDidMount(){
+
+  }
 
   
     

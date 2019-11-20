@@ -18,7 +18,7 @@ class LoadingScreen extends React.Component {
                 this.props.navigation.navigate('HomeScreen')
             }
             else{
-                this.props.navigation.navigation('LoginScreen')
+                this.props.navigation.navigate('LoginScreen')
             }
         }.bind(this)
         )
