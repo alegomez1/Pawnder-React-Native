@@ -3,6 +3,7 @@ import { View, ScrollView, StyleSheet, Text, TouchableOpacity, ActivityIndicator
 import { connect } from 'react-redux'
 
 import firebase from 'firebase'
+import { setCurrentUser } from '../actions'
 
 class LoadingScreen extends React.Component {
 
@@ -14,7 +15,11 @@ class LoadingScreen extends React.Component {
         firebase.auth().onAuthStateChanged(function(user)
         {
             if(user){
-                this.props.navigation.navigate('Navigator')
+                firebase.database().ref(`/users/${user.uid}`).once('value')
+                .then((result)=>{
+                    this.props.setCurrentUser(result)
+                    this.props.navigation.navigate('Navigator')
+                })
             }
             else{
                 this.props.navigation.navigate('LoginScreen')
@@ -35,7 +40,7 @@ const mapStateToProps = (state) => {
     return { state }
 }
 export default connect(mapStateToProps, {
-
+    setCurrentUser
 })(LoadingScreen )
 
 //Styles

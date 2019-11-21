@@ -20,7 +20,12 @@ const uid = (uid='123', action) => {
     }
     return uid
 }
-
+const currentUser = (currentUser='user', action)=> {
+    if(action.type === 'SET_USER'){
+        return action.payload
+    }
+    return currentUser
+}
 const userHasPet = (hasPet=false, action) => {
     if(action.type === 'SET_HAS_PET'){
         return action.payload
@@ -31,5 +36,6 @@ export default combineReducers({
     changeName,
     isLoggedIn,
     uid,
-    userHasPet
+    userHasPet,
+    currentUser
 })

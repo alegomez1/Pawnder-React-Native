@@ -16,6 +16,12 @@ export const setUID = (uid) => {
         payload: uid
     }
 }
+export const setCurrentUser = (currentUser) => {
+    return{
+        type: 'SET_USER',
+        payload: currentUser
+    }
+}
 export const setHasPet = (hasPet) => {
     return{
         type: 'SET_HAS_PET',

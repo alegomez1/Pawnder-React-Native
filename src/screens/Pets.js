@@ -6,15 +6,12 @@ import firebase from 'firebase'
 
 class Pets extends React.Component {
 
-    componentDidMount(){
-        console.log('user uid', this.props.state.uid)
-        firebase.database().ref(`/users/${this.props.state.uid}`)
-        .once('value')
-        .then((result)=>{
-            console.log('result from reading db', result)
-        })
-    }
     render() {
+
+
+
+
+
         if(!this.props.state.userHasPet){
             return(
             <View style={styles.container}>
@@ -30,6 +27,7 @@ class Pets extends React.Component {
         return (
             <View style={styles.container}>
                 <Text>Pets</Text>
+                {/* <Text>{this.props.state.currentUser.pets.name}</Text> */}
             </View>
         )
     }

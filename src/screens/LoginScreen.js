@@ -52,7 +52,7 @@ class LoginScreen extends React.Component {
                         hasPet: false
                     })
                     .then(()=>{
-                        console.log('created user in database')
+                        // console.log('created user in database')
                         
                     }).catch((err)=>{
                         console.log(err)
@@ -63,7 +63,7 @@ class LoginScreen extends React.Component {
                     .ref('/users/' + result.user.uid).update({
                         last_logged_in: Date.now()
                     }).then(()=>{
-                        console.log('updated user', result.user.uid)
+                        // console.log('updated user', result.user.uid)
                         this.props.setUID(result.user.uid)
                         this.props.setHasPet(result.user.hasPet)
                         // console.log('props----', this.props)
