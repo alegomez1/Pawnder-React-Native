@@ -1,9 +1,10 @@
 import React from 'react'
 import { View, ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
+import { setUID } from '../actions'
 
 import * as Google from 'expo-google-app-auth';
-import * as GoogleSignIn from 'expo-google-sign-in';
+// import * as GoogleSignIn from 'expo-google-sign-in';
 
 import firebase from 'firebase'
 
@@ -36,7 +37,7 @@ class LoginScreen extends React.Component {
                 googleUser.accessToken)
             // Sign in with credential from the Google user
             firebase.auth().signInWithCredential(credential).then((result)=>{
-                console.log('user signed in', result)
+                // console.log('user signed in', result)
                 if(result.additionalUserInfo.isNewUser){
 
                     firebase.database()
@@ -47,10 +48,13 @@ class LoginScreen extends React.Component {
                         locale: result.additionalUserInfo.profile.locale,
                         first_name: result.additionalUserInfo.profile.given_name,
                         last_name: result.additionalUserInfo.profile.family_name,
-                        created_at: Date.now()
+                        created_at: Date.now(),
+                        hasPet: false
                     })
                     .then(()=>{
                         console.log('created user in database')
+                        // setUID(result.uid.uid)
+                        // console.log('current user info', this.props.state)
                     }).catch((err)=>{
                         console.log(err)
                     })
@@ -59,7 +63,10 @@ class LoginScreen extends React.Component {
                     firebase.database()
                     .ref('/users/' + result.user.uid).update({
                         last_logged_in: Date.now()
-                    }).then(()=>{console.log('updated user')})
+                    }).then(()=>{
+                        console.log('updated user')
+                        this.props.setUID(result.user.uid)
+                    })
                 }
                 })
                 .catch(function(error) {
@@ -77,8 +84,6 @@ class LoginScreen extends React.Component {
           }
         }.bind(this));
       }
-
-
 
     // Sign in with google function
     signInWithGoogleAsync = async() => {
@@ -120,7 +125,7 @@ const mapStateToProps = (state) => {
     return { state }
 }
 export default connect(mapStateToProps, {
-
+setUID
 })(LoginScreen)
 
 //Styles
@@ -129,7 +134,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent:'center',
     },
 
 })

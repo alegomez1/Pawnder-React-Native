@@ -14,7 +14,15 @@ const isLoggedIn = (loggedIn=true, action)=>{
     return loggedIn
 }
 
+const uid = (uid='123', action) => {
+    if(action.type === 'SET_UID'){
+        return action.payload
+    }
+    return uid
+}
+
 export default combineReducers({
     changeName,
-    isLoggedIn
+    isLoggedIn,
+    uid
 })

@@ -10,3 +10,10 @@ export const login = (login) => {
         payload: login
     }
 }
+
+export const setUID = (uid) => {
+    return{
+        type: 'SET_UID',
+        payload: uid
+    }
+}

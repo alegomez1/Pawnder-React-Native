@@ -11,13 +11,14 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux'
 
-import {login} from '../actions'
+import {setUID} from '../actions'
 
 import firebase from 'firebase'
 
  class SettingsScreen extends React.Component {
   render(){
 
+    console.log('state', this.props)
   return (
     <View style={styles.container}>
       <Text>Settings page</Text>
@@ -38,14 +39,15 @@ const mapStateToProps = (state) => {
   return { state }
 }
 export default connect(mapStateToProps,{
-  login
+  setUID
 })(SettingsScreen)
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 100,
     flex: 1,
     backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent:'center',
   },
 
 });

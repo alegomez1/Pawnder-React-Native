@@ -9,21 +9,20 @@ import { createBottomTabNavigator } from 'react-navigation-tabs'
 
 import Icon from 'react-native-vector-icons/Ionicons'
 
-// import AppNavigator from './navigation/AppNavigator';
-
 import { createAppContainer, createSwitchNavigator} from 'react-navigation'
 
 import LoginScreen from './src/screens/LoginScreen'
 import LoadingScreen from './src/screens/LoadingScreen'
 import HomeScreen from './src/screens/HomeScreen'
 import SettingsScreen from './src/screens/SettingsScreen'
+import Pets from './src/screens/Pets'
+
+
 
 import firebase from 'firebase'
 import firebaseConfig from './src/config'
 
 firebase.initializeApp(firebaseConfig)
-
-
 
 const tabNavigator = createBottomTabNavigator(
 
@@ -40,6 +39,15 @@ const tabNavigator = createBottomTabNavigator(
             )
           },
         },
+        Pets:{
+          screen: Pets,
+          navigationOptions: {
+            tabBarLabel:"Pets",
+            tabBarIcon:(
+              <Icon marginTop={20} name="ios-paw" size={24} color='white'/>
+            )
+          },
+        },
         Settings:{
           screen: SettingsScreen,
           navigationOptions: {
@@ -50,6 +58,7 @@ const tabNavigator = createBottomTabNavigator(
           },
         },
       },
+      
       {
         tabBarOptions: {
           justifyContent: 'flex-end',
