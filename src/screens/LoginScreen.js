@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
-import { setUID } from '../actions'
+import { setUID, setHasPet } from '../actions'
 
 import * as Google from 'expo-google-app-auth';
 // import * as GoogleSignIn from 'expo-google-sign-in';
@@ -25,7 +25,7 @@ class LoginScreen extends React.Component {
       }
 
      onSignIn = (googleUser) => {
-        console.log('Google Auth Response', googleUser);
+        // console.log('Google Auth Response', googleUser);
         // We need to register an Observer on Firebase Auth to make sure auth is initialized.
         var unsubscribe = firebase.auth().onAuthStateChanged(function(firebaseUser) {
           unsubscribe();
@@ -53,8 +53,7 @@ class LoginScreen extends React.Component {
                     })
                     .then(()=>{
                         console.log('created user in database')
-                        // setUID(result.uid.uid)
-                        // console.log('current user info', this.props.state)
+                        
                     }).catch((err)=>{
                         console.log(err)
                     })
@@ -64,8 +63,10 @@ class LoginScreen extends React.Component {
                     .ref('/users/' + result.user.uid).update({
                         last_logged_in: Date.now()
                     }).then(()=>{
-                        console.log('updated user')
+                        console.log('updated user', result.user.uid)
                         this.props.setUID(result.user.uid)
+                        this.props.setHasPet(result.user.hasPet)
+                        // console.log('props----', this.props)
                     })
                 }
                 })

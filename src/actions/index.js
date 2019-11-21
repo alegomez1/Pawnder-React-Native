@@ -10,10 +10,15 @@ export const login = (login) => {
         payload: login
     }
 }
-
 export const setUID = (uid) => {
     return{
         type: 'SET_UID',
         payload: uid
+    }
+}
+export const setHasPet = (hasPet) => {
+    return{
+        type: 'SET_HAS_PET',
+        payload: hasPet
     }
 }

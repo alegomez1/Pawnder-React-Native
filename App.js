@@ -16,6 +16,7 @@ import LoadingScreen from './src/screens/LoadingScreen'
 import HomeScreen from './src/screens/HomeScreen'
 import SettingsScreen from './src/screens/SettingsScreen'
 import Pets from './src/screens/Pets'
+import AddPetScreen from './src/screens/AddPet'
 
 
 
@@ -82,6 +83,7 @@ const tabNavigator = createBottomTabNavigator(
 )
 
 const AppSwitchNavigator = createSwitchNavigator({
+  AddPetScreen:AddPetScreen,
   LoadingScreen:LoadingScreen,
   LoginScreen:LoginScreen,
   HomeScreen:HomeScreen,

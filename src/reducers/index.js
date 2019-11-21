@@ -21,8 +21,15 @@ const uid = (uid='123', action) => {
     return uid
 }
 
+const userHasPet = (hasPet=false, action) => {
+    if(action.type === 'SET_HAS_PET'){
+        return action.payload
+    }
+    return hasPet
+}
 export default combineReducers({
     changeName,
     isLoggedIn,
-    uid
+    uid,
+    userHasPet
 })
