@@ -1,18 +1,53 @@
+import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
-import { ExpoConfigView } from '@expo/samples';
+import {
+  Image,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { connect } from 'react-redux'
 
-export default function SettingsScreen() {
-  /**
-   * Go ahead and delete ExpoConfigView and replace it with your content;
-   * we just wanted to give you a quick view of your config.
-   */
-  return <ExpoConfigView />;
+import {setUID} from '../actions'
+
+import firebase from 'firebase'
+
+ class SettingsScreen extends React.Component {
+  render(){
+
+    console.log('state', this.props)
+  return (
+    <View style={styles.container}>
+      <Text>Settings page</Text>
+      <TouchableOpacity
+      onPress={()=> firebase.auth().signOut()}>
+        <Text>Sign out</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
 }
 
 SettingsScreen.navigationOptions = {
-  title: 'app.json',
+  header: null,
 };
 
+const mapStateToProps = (state) => {
+  return { state }
+}
+export default connect(mapStateToProps,{
+  setUID
+})(SettingsScreen)
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent:'center',
+  },
 
-
+});
