@@ -18,8 +18,6 @@ import SettingsScreen from './src/screens/SettingsScreen'
 import Pets from './src/screens/Pets'
 import AddPetScreen from './src/screens/AddPet'
 
-
-
 import firebase from 'firebase'
 import firebaseConfig from './src/config'
 
@@ -59,7 +57,6 @@ const tabNavigator = createBottomTabNavigator(
           },
         },
       },
-      
       {
         tabBarOptions: {
           justifyContent: 'flex-end',

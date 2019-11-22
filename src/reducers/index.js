@@ -32,10 +32,17 @@ const userHasPet = (hasPet=false, action) => {
     }
     return hasPet
 }
+const allUsers = (allUsers=[], action)=>{
+    if(action.type === 'SET_ALL_USERS'){
+        return action.payload
+    }
+    return allUsers
+}
 export default combineReducers({
     changeName,
     isLoggedIn,
     uid,
     userHasPet,
-    currentUser
+    currentUser,
+    allUsers
 })
