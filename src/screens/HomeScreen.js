@@ -9,11 +9,19 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { connect } from 'react-redux'
 
+import { connect } from 'react-redux'
 import { login } from '../actions'
 
+import firebase from 'firebase'
+
 class HomeScreen extends React.Component {
+
+  componentDidMount(){
+
+  }
+
+
   render() {
 
 

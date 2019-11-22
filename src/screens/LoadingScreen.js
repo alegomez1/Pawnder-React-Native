@@ -9,6 +9,7 @@ class LoadingScreen extends React.Component {
 
     componentDidMount(){
         this.checkIfLoggedIn()
+        this.getAllUsers()
     }
 
     checkIfLoggedIn = () => {
@@ -28,6 +29,14 @@ class LoadingScreen extends React.Component {
         }.bind(this)
         )
     }
+
+    getAllUsers = () => {
+        firebase.database().ref('/users/').once('value')
+        .then((result)=>{
+          console.log('all users from db', result.val())
+        })
+      }
+
     render() {
         return (
             <View style={styles.container}>

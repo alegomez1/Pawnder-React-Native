@@ -84,9 +84,9 @@ const tabNavigator = createBottomTabNavigator(
 
 const AppSwitchNavigator = createSwitchNavigator({
   LoadingScreen:LoadingScreen,
+  AddPetScreen:AddPetScreen,
   LoginScreen:LoginScreen,
   HomeScreen:HomeScreen,
-  AddPetScreen:AddPetScreen,
   Navigator:tabNavigator
 })
 

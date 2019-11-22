@@ -8,8 +8,8 @@ class Pets extends React.Component {
 
     render() {
 
-        console.log('in pets', this.props.state.currentUser.pets.name)
-        if(!this.props.state.userHasPet){
+        console.log('in pets', this.props.state.currentUser)
+        if(!this.props.state.currentUser.hasPet){
             return(
             <View style={styles.container}>
                 <Text>No Pets</Text>
@@ -24,7 +24,7 @@ class Pets extends React.Component {
         return (
             <View style={styles.container}>
                 <Text>Pets</Text>
-                {/* <Text>{this.props.state.currentUser.pets.name}</Text> */}
+                <Text>{this.props.state.currentUser.pets.name}</Text>
             </View>
         )
     }
