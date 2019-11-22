@@ -16,7 +16,6 @@ import { login } from '../actions'
 class HomeScreen extends React.Component {
   render() {
 
-    // console.log('current props-----------', this.props)
 
     return (
       <View style={styles.container}>

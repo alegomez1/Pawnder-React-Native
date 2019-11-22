@@ -8,10 +8,7 @@ class Pets extends React.Component {
 
     render() {
 
-
-
-
-
+        console.log('in pets', this.props.state.currentUser.pets.name)
         if(!this.props.state.userHasPet){
             return(
             <View style={styles.container}>

@@ -17,7 +17,8 @@ class LoadingScreen extends React.Component {
             if(user){
                 firebase.database().ref(`/users/${user.uid}`).once('value')
                 .then((result)=>{
-                    this.props.setCurrentUser(result)
+                    // console.log('loading result', result.val())
+                    this.props.setCurrentUser(result.val())
                     this.props.navigation.navigate('Navigator')
                 })
             }
