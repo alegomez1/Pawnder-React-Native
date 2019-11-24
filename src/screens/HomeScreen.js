@@ -24,8 +24,6 @@ class HomeScreen extends React.Component {
 
   render() {
 
-    // console.log('all unique users--------', this.props.state.allUsers)
-
     return (
       <View style={styles.container}>
         <Text>Home page</Text>
