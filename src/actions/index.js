@@ -28,3 +28,9 @@ export const setHasPet = (hasPet) => {
         payload: hasPet
     }
 }
+export const setAllUsers = (allUsers) => {
+    return{
+        type: 'SET_ALL_USERS',
+        payload: allUsers
+    }
+}

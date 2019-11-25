@@ -49,7 +49,8 @@ class LoginScreen extends React.Component {
                         first_name: result.additionalUserInfo.profile.given_name,
                         last_name: result.additionalUserInfo.profile.family_name,
                         created_at: Date.now(),
-                        hasPet: false
+                        hasPet: false,
+                        uid: result.user.uid
                     })
                     .then(()=>{
                         // console.log('created user in database')
