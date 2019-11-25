@@ -1,6 +1,7 @@
 import React from 'react'
-import { View, ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { View, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
+
 
 
 
@@ -24,11 +25,12 @@ class AllPets extends React.Component {
         const allUsers = this.props.state.allUsers
         let allPets = []
         allUsers.forEach(element=>{
-            allPets.push(<Text>{element.pets.name}</Text>)
+            allPets.push(<Text key={element.pets.name}>{element.pets.name}</Text>)
         })
 
         return (
             <View style={styles.container}>
+                <TextInput style={styles.textbox}/>
                 <Text>AllPets</Text>
                 {allPets}
                 
@@ -52,5 +54,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent:'center',
     },
+    textbox:{
+        width: 200,
+        height: 60,
+        borderColor: 'black',
+        borderWidth: 2
+    }
 
 })
