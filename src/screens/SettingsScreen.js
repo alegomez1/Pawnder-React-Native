@@ -18,7 +18,6 @@ import firebase from 'firebase'
  class SettingsScreen extends React.Component {
   render(){
 
-    console.log('state', this.props)
   return (
     <View style={styles.container}>
       <Text>Settings page</Text>
