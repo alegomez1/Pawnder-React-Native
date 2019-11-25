@@ -11,7 +11,6 @@ class LoadingScreen extends React.Component {
         this.checkIfLoggedIn()
         this.getAllUsers()
     }
-
     checkIfLoggedIn = () => {
         firebase.auth().onAuthStateChanged(function (user) {
             if (user) {
@@ -30,13 +29,12 @@ class LoadingScreen extends React.Component {
 
     getAllUsers = () => {
         let allUsers = []
-        firebase.database().ref('/users/').on('value', (snap) => {
-            snap.forEach((child) => {
+        firebase.database().ref('/users/').on('value', (eachUser) => {
+            eachUser.forEach((child) => {
                 // console.log('user---', child.val())
                 allUsers.push(child.val())
             })
-            // console.log('all users---', allUsers)
-
+            this.props.setAllUsers(allUsers)
         })
     }
 

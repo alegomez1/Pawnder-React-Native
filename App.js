@@ -17,6 +17,7 @@ import HomeScreen from './src/screens/HomeScreen'
 import SettingsScreen from './src/screens/SettingsScreen'
 import Pets from './src/screens/Pets'
 import AddPetScreen from './src/screens/AddPet'
+import AllPets from './src/screens/AllPets'
 
 import firebase from 'firebase'
 import firebaseConfig from './src/config'
@@ -44,6 +45,15 @@ const tabNavigator = createBottomTabNavigator(
             tabBarLabel:"Pets",
             tabBarIcon:(
               <Icon marginTop={20} name="ios-paw" size={24} color='white'/>
+            )
+          },
+        },
+        AllPets:{
+          screen: AllPets,
+          navigationOptions: {
+            tabBarLabel:"AllPets",
+            tabBarIcon:(
+              <Icon marginTop={20} name="ios-star" size={24} color='white'/>
             )
           },
         },
