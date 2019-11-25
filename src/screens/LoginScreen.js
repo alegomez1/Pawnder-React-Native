@@ -41,8 +41,8 @@ class LoginScreen extends React.Component {
                 if(result.additionalUserInfo.isNewUser){
 
                     firebase.database()
-                    .ref('/users/' + result.user.uid)
-                    .set({
+                    .ref('/users/')
+                    .push({
                         gmail: result.user.email,
                         profile_picture: result.additionalUserInfo.profile.picture,
                         locale: result.additionalUserInfo.profile.locale,

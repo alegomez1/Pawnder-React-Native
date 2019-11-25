@@ -34,11 +34,7 @@ class LoadingScreen extends React.Component {
        firebase.database().ref('users').once('value')
        .then((result) =>{
 
-
-        
-        const peopleArray = Object.keys(result).map(i => result[i])
-
-           console.log('-----all users-----', peopleArray)
+           console.log('-----all users-----', result.val())
        })
         
         
