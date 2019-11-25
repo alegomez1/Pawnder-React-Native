@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, ScrollView, StyleSheet, Text, TouchableOpacity, ActivityIndicator} from 'react-native'
+import { View, ScrollView, StyleSheet, Text, TouchableOpacity, ActivityIndicator } from 'react-native'
 import { connect } from 'react-redux'
 
 import firebase from 'firebase'
@@ -7,23 +7,22 @@ import { setCurrentUser, setAllUsers } from '../actions'
 
 class LoadingScreen extends React.Component {
 
-    componentDidMount(){
+    componentDidMount() {
         this.checkIfLoggedIn()
         this.getAllUsers()
     }
 
     checkIfLoggedIn = () => {
-        firebase.auth().onAuthStateChanged(function(user)
-        {
-            if(user){
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
                 firebase.database().ref(`/users/${user.uid}`).once('value')
-                .then((result)=>{
-                    // console.log('loading result', result.val())
-                    this.props.setCurrentUser(result.val())
-                    this.props.navigation.navigate('Navigator')
-                })
+                    .then((result) => {
+                        // console.log('loading result', result.val())
+                        this.props.setCurrentUser(result.val())
+                        this.props.navigation.navigate('Navigator')
+                    })
             }
-            else{
+            else {
                 this.props.navigation.navigate('LoginScreen')
             }
         }.bind(this)
@@ -31,19 +30,18 @@ class LoadingScreen extends React.Component {
     }
 
     getAllUsers = () => {
-       firebase.database().ref('users').once('value')
-       .then((result) =>{
-
-           console.log('-----all users-----', result.val())
-       })
-        
-        
-      }
+        let allUsers = []
+        firebase.database().ref('/users/').on('value', (snap) => {
+            snap.forEach((child) => {
+                allUsers.push(child.val())
+            })
+        })
+    }
 
     render() {
         return (
             <View style={styles.container}>
-                <ActivityIndicator size="large"/>
+                <ActivityIndicator size="large" />
             </View>
         )
     }
@@ -55,7 +53,7 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
     setCurrentUser,
     setAllUsers
-})(LoadingScreen )
+})(LoadingScreen)
 
 //Styles
 const styles = StyleSheet.create({
@@ -63,7 +61,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent:'center',
+        justifyContent: 'center',
     },
 
 })
