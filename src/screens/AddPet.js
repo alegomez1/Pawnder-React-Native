@@ -16,16 +16,11 @@ class AddPet extends React.Component {
     }
 
     componentDidMount() {
-        firebase.database().ref(`/users/${this.props.state.uid}`)
-            .once('value')
-            .then((result) => {
-                // console.log('result from reading db', result)
-            })
+
     }
     addPetToDatabase = () => {
-        // console.log('add to db func called')
         firebase.database()
-            .ref(`/users/${this.props.state.uid}/pets`)
+            .ref(`/users/${this.props.state.currentUser.uid}/pets`)
             .set({
                 name: this.state.name,
                 age: this.state.age,
@@ -39,7 +34,7 @@ class AddPet extends React.Component {
                 console.log(err)
             })
             .then(() => {
-                firebase.database().ref(`/users/${this.props.state.uid}`)
+                firebase.database().ref(`/users/${this.props.state.currentUser.uid}`)
                     .update({ hasPet: true })
                 this.props.navigation.navigate('LoadingScreen')
             })

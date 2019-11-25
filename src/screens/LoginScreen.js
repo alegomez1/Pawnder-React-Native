@@ -41,15 +41,16 @@ class LoginScreen extends React.Component {
                 if(result.additionalUserInfo.isNewUser){
 
                     firebase.database()
-                    .ref('/users/')
-                    .push({
+                    .ref('/users/' + result.user.uid)
+                    .set({
                         gmail: result.user.email,
                         profile_picture: result.additionalUserInfo.profile.picture,
                         locale: result.additionalUserInfo.profile.locale,
                         first_name: result.additionalUserInfo.profile.given_name,
                         last_name: result.additionalUserInfo.profile.family_name,
                         created_at: Date.now(),
-                        hasPet: false
+                        hasPet: false,
+                        uid: result.user.uid
                     })
                     .then(()=>{
                         // console.log('created user in database')

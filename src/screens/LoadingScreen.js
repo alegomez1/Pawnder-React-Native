@@ -17,7 +17,6 @@ class LoadingScreen extends React.Component {
             if (user) {
                 firebase.database().ref(`/users/${user.uid}`).once('value')
                     .then((result) => {
-                        // console.log('loading result', result.val())
                         this.props.setCurrentUser(result.val())
                         this.props.navigation.navigate('Navigator')
                     })
@@ -33,8 +32,11 @@ class LoadingScreen extends React.Component {
         let allUsers = []
         firebase.database().ref('/users/').on('value', (snap) => {
             snap.forEach((child) => {
+                // console.log('user---', child.val())
                 allUsers.push(child.val())
             })
+            // console.log('all users---', allUsers)
+
         })
     }
 
