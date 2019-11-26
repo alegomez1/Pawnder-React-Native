@@ -3,29 +3,35 @@ import { View, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity } from 
 import { connect } from 'react-redux'
 
 
-
 class AllPets extends React.Component {
 
     state={
-        city: ''
+        city: '',
+        search: false,
+        actualResults: []
     }
 
-    showPetNames = () => {
-        return(
-
-        this.props.state.allUsers.forEach(element => {
-            // console.log('pet name', element.pets.name)
-        return (<View><Text>element.pets.name</Text></View>)
+    search = () =>{
+        console.log('search func activated')
+        let allUsers = this.props.state.allUsers
+        allUsers.map(eachUser=>{
+            if(eachUser.pets.city === this.state.city){
+                // console.log('added', eachUser)
+                this.state.actualResults.push(eachUser)
+            }
         })
-
-        )
+        this.setState({search:true})
+        this.displayPets()
     }
 
     displayPets = () => {
         let displayedResults
-        const allUsers = this.props.state.allUsers
-        displayedResults = allUsers.map((eachUser, i)=>{
-            if(eachUser.pets.city === this.state.city){
+        // const allUsers = this.props.state.allUsers
+        displayedResults = this.state.actualResults.map((eachUser, i)=>{
+            if((eachUser.pets.city === this.state.city) && (this.state.search===true)){
+                // console.log('added this one', eachUser)
+                console.log('display func called')
+
                 return (
                     <Text key={i}>{eachUser.pets.name} and {eachUser.pets.age}</Text>
                 )
@@ -37,12 +43,6 @@ class AllPets extends React.Component {
 
     render() {
 
-        const allUsers = this.props.state.allUsers
-        console.log('allUsers', allUsers)
-        let allPets = []
-        allUsers.forEach(element=>{
-            allPets.push(<Text key={element.pets.name}>{element.pets.name}</Text>)
-        })
 
         return (
             <View style={styles.container}>
@@ -51,14 +51,13 @@ class AllPets extends React.Component {
                 onChangeText={text => this.setState({ city: text.toLocaleLowerCase() })}
                 />
                 <Text>AllPets</Text>
-                {allPets}
                 <TouchableOpacity
                 onPress={()=> console.log('state', this.state)}
                 >
                     <Text>Show state</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                onPress={()=> console.log('search func', this.state)}
+                onPress= {()=> this.search()}
                 >
                     <Text>Search</Text>
                 </TouchableOpacity>
