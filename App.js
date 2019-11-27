@@ -17,7 +17,7 @@ import HomeScreen from './src/screens/HomeScreen'
 import SettingsScreen from './src/screens/SettingsScreen'
 import Pets from './src/screens/Pets'
 import AddPetScreen from './src/screens/AddPet'
-import AllPets from './src/screens/AllPets'
+import Search from './src/screens/Search'
 
 import firebase from 'firebase'
 import firebaseConfig from './src/config'
@@ -27,10 +27,10 @@ firebase.initializeApp(firebaseConfig)
 const tabNavigator = createBottomTabNavigator(
 
   {
-    AllPets:{
-      screen: AllPets,
+    Search:{
+      screen: Search,
       navigationOptions: {
-        tabBarLabel:"AllPets",
+        tabBarLabel:"Search",
         tabBarIcon:(
           <Icon marginTop={20} name="ios-star" size={24} color='white'/>
         )

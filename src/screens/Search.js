@@ -3,10 +3,10 @@ import { View, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity } from 
 import { connect } from 'react-redux'
 
 
-class AllPets extends React.Component {
+class Search extends React.Component {
 
     state={
-        city: '',
+        searchCity: '',
         search: false,
         actualResults: []
     }
@@ -15,7 +15,7 @@ class AllPets extends React.Component {
         console.log('search func activated')
         let allUsers = this.props.state.allUsers
         allUsers.map(eachUser=>{
-            if(eachUser.pets.city === this.state.city){
+            if(eachUser.pets.city === this.state.searchCity){
                 // console.log('added', eachUser)
                 this.state.actualResults.push(eachUser)
             }
@@ -26,41 +26,44 @@ class AllPets extends React.Component {
 
     displayPets = () => {
         let displayedResults
-        // const allUsers = this.props.state.allUsers
         displayedResults = this.state.actualResults.map((eachUser, i)=>{
-            if((eachUser.pets.city === this.state.city) && (this.state.search===true)){
-                // console.log('added this one', eachUser)
+            if((eachUser.pets.city === this.state.searchCity) && (this.state.search===true)){
                 console.log('display func called')
 
                 return (
-                    <Text key={i}>{eachUser.pets.name} and {eachUser.pets.age}</Text>
+                    <TouchableOpacity style={styles.petNameButton} key={i}>
+                        <Text>{eachUser.pets.name}</Text>
+                    </TouchableOpacity>
                 )
             }
         })
         return displayedResults
     }
 
-
     render() {
-
-
         return (
             <View style={styles.container}>
+                <View
+                style={styles.searchField}
+                >
                 <TextInput style={styles.textbox}
                 placeholder="city"
-                onChangeText={text => this.setState({ city: text.toLocaleLowerCase() })}
+                onChangeText={text => this.setState({ searchCity: text.toLocaleLowerCase() })}
                 />
-                <Text>AllPets</Text>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                 onPress={()=> console.log('state', this.state)}
                 >
                     <Text>Show state</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <TouchableOpacity
                 onPress= {()=> this.search()}
                 >
                     <Text>Search</Text>
                 </TouchableOpacity>
+                </View>
+                <TouchableOpacity style={styles.petNameButton}>
+                        <Text>Alpha</Text>
+                    </TouchableOpacity>
                 {this.displayPets()}
             </View>
         )
@@ -72,21 +75,34 @@ const mapStateToProps = (state) => {
 }
 export default connect(mapStateToProps, {
 
-})(AllPets)
+})(Search)
 
 //Styles
 const styles = StyleSheet.create({
     container: {
+        marginTop: 50,
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent:'center',
+        // justifyContent:'center',
+    },
+    petNameButton:{
+
+    },
+    searchField:{
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+
     },
     textbox:{
-        width: 200,
-        height: 60,
+        marginRight: 10,
+        textAlign: 'center',
+        width: 300,
+        height: 40,
         borderColor: 'black',
-        borderWidth: 2
-    }
+        borderWidth: 1,
+        borderRadius: 10,
+    },
 
 })
