@@ -1,38 +1,45 @@
 import React from 'react'
-import { View, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native'
+import { View, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, Image } from 'react-native'
 import { connect } from 'react-redux'
 
 
 class Search extends React.Component {
 
-    state={
+    state = {
         searchCity: '',
         search: false,
         actualResults: []
     }
 
-    search = () =>{
+    search = () => {
         console.log('search func activated')
         let allUsers = this.props.state.allUsers
-        allUsers.map(eachUser=>{
-            if(eachUser.pets.city === this.state.searchCity){
+        allUsers.map(eachUser => {
+            if (eachUser.pets.city === this.state.searchCity) {
                 // console.log('added', eachUser)
                 this.state.actualResults.push(eachUser)
             }
         })
-        this.setState({search:true})
+        this.setState({ search: true })
         this.displayPets()
     }
 
     displayPets = () => {
         let displayedResults
-        displayedResults = this.state.actualResults.map((eachUser, i)=>{
-            if((eachUser.pets.city === this.state.searchCity) && (this.state.search===true)){
+        displayedResults = this.state.actualResults.map((eachUser, i) => {
+            if ((eachUser.pets.city === this.state.searchCity) && (this.state.search === true)) {
                 console.log('display func called')
 
                 return (
-                    <TouchableOpacity style={styles.petNameButton} key={i}>
-                        <Text>{eachUser.pets.name}</Text>
+                    <TouchableOpacity style={styles.searchResultContainer} key={i}>
+                        <View style={styles.resultContainer}>
+                            <Image style={styles.resultImage} source={{uri: 'https://facebook.github.io/react-native/img/tiny_logo.png'}}/>
+                            <View style={styles.petInfoContainer}>
+                            <Text style={{fontSize: 20, fontWeight: 'bold', paddingBottom: 5}}>{eachUser.pets.name}</Text>
+                            <Text style={{paddingBottom: 5}}>Breed: {eachUser.pets.breed}</Text>
+                            <Text style={{paddingBottom: 5}}>Age: {eachUser.pets.age} years old</Text>
+                            </View>
+                        </View>
                     </TouchableOpacity>
                 )
             }
@@ -44,27 +51,36 @@ class Search extends React.Component {
         return (
             <View style={styles.container}>
                 <View
-                style={styles.searchField}
+                    style={styles.searchField}
                 >
-                <TextInput style={styles.textbox}
-                placeholder="city"
-                onChangeText={text => this.setState({ searchCity: text.toLocaleLowerCase() })}
-                />
-                {/* <TouchableOpacity
+                    <TextInput style={styles.textbox}
+                        placeholder="city"
+                        onChangeText={text => this.setState({ searchCity: text.toLocaleLowerCase() })}
+                    />
+                    {/* <TouchableOpacity
                 onPress={()=> console.log('state', this.state)}
                 >
                     <Text>Show state</Text>
                 </TouchableOpacity> */}
-                <TouchableOpacity
-                onPress= {()=> this.search()}
-                >
-                    <Text>Search</Text>
-                </TouchableOpacity>
-                </View>
-                <TouchableOpacity style={styles.petNameButton}>
-                        <Text>Alpha</Text>
+                    <TouchableOpacity
+                        onPress={() => this.search()}
+                    >
+                        <Text>Search</Text>
                     </TouchableOpacity>
-                {this.displayPets()}
+                </View>
+                <ScrollView>
+                    <TouchableOpacity style={styles.searchResultContainer}>
+                        <View style={styles.resultContainer}>
+                            <Image style={styles.resultImage} source={{uri: 'https://facebook.github.io/react-native/img/tiny_logo.png'}}/>
+                            <View style={styles.petInfoContainer}>
+                            <Text style={{fontSize: 20, fontWeight: 'bold', paddingBottom: 5}}>Alpha</Text>
+                            <Text style={{paddingBottom: 5}}>Breed: Border Collie</Text>
+                            <Text style={{paddingBottom: 5}}>Age: 8 years old</Text>
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+                    {this.displayPets()}
+                </ScrollView>
             </View>
         )
     }
@@ -86,16 +102,42 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         // justifyContent:'center',
     },
-    petNameButton:{
-
+    petInfoContainer:{
+        marginLeft: 20,
+        // justifyContent: 'center'
     },
-    searchField:{
-        flexDirection: 'row',
+    resultContainer:{
+        flexDirection: "row"
+    },
+    resultImage:{
+        width: 50,
+        height: 50,
+        justifyContent: 'center'
+    },
+    searchField: {
+        // flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center'
 
     },
-    textbox:{
+    searchResultContainer: {
+        marginTop: 20,
+        backgroundColor: 'white',
+        width: 350,
+        height: 80,
+
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.20,
+        shadowRadius: 1.41,
+
+        elevation: 2,
+
+    },
+    textbox: {
         marginRight: 10,
         textAlign: 'center',
         width: 300,
