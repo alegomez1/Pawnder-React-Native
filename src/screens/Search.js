@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, Image } from 'react-native'
+import { View, ScrollView, StyleSheet, Text, TextInput, Modal, TouchableOpacity, Image } from 'react-native'
 import { connect } from 'react-redux'
 
 
@@ -8,7 +8,9 @@ class Search extends React.Component {
     state = {
         searchCity: '',
         search: false,
-        actualResults: []
+        actualResults: [],
+        currentUser: {},
+        showModal: false
     }
 
     search = () => {
@@ -31,13 +33,13 @@ class Search extends React.Component {
                 console.log('display func called')
 
                 return (
-                    <TouchableOpacity style={styles.searchResultContainer} key={i}>
+                    <TouchableOpacity style={styles.searchResultContainer} key={i} onPress={() => this.showModal()}>
                         <View style={styles.resultContainer}>
-                            <Image style={styles.resultImage} source={{uri: 'https://facebook.github.io/react-native/img/tiny_logo.png'}}/>
+                            <Image style={styles.resultImage} source={{ uri: 'https://facebook.github.io/react-native/img/tiny_logo.png' }} />
                             <View style={styles.petInfoContainer}>
-                            <Text style={{fontSize: 20, fontWeight: 'bold', paddingBottom: 5}}>{eachUser.pets.name}</Text>
-                            <Text style={{paddingBottom: 5}}>Breed: {eachUser.pets.breed}</Text>
-                            <Text style={{paddingBottom: 5}}>Age: {eachUser.pets.age} years old</Text>
+                                <Text style={{ fontSize: 20, fontWeight: 'bold', paddingBottom: 5 }}>{eachUser.pets.name}</Text>
+                                <Text style={{ paddingBottom: 5 }}>Breed: {eachUser.pets.breed}</Text>
+                                <Text style={{ paddingBottom: 5 }}>Age: {eachUser.pets.age} years old</Text>
                             </View>
                         </View>
                     </TouchableOpacity>
@@ -47,9 +49,36 @@ class Search extends React.Component {
         return displayedResults
     }
 
+    setModalFalse = () => {
+        console.log('making false')
+        this.setState({ showModal: false })
+    }
+    showModal = async () => {
+        console.log('---state modal---', this.state.showModal)
+        if (this.state.showModal === true) {
+           await this.setModalFalse()
+            console.log('should now be false', this.state.showModal)
+            this.setState({ showModal: true })
+        } else { this.setState({ showModal: true }) }
+
+    }
+
     render() {
         return (
             <View style={styles.container}>
+
+                <Modal
+                    animationType="slide"
+                    presentationStyle={'formSheet'}
+                    visible={this.state.showModal}
+                    onDismiss={() => console.log('modal dismissed')}
+                >
+                    <View style={styles.container}>
+                        <Text>Alex</Text>
+                    </View>
+                </Modal>
+
+
                 <View
                     style={styles.searchField}
                 >
@@ -57,11 +86,6 @@ class Search extends React.Component {
                         placeholder="city"
                         onChangeText={text => this.setState({ searchCity: text.toLocaleLowerCase() })}
                     />
-                    {/* <TouchableOpacity
-                onPress={()=> console.log('state', this.state)}
-                >
-                    <Text>Show state</Text>
-                </TouchableOpacity> */}
                     <TouchableOpacity
                         onPress={() => this.search()}
                     >
@@ -69,17 +93,18 @@ class Search extends React.Component {
                     </TouchableOpacity>
                 </View>
                 <ScrollView>
-                    <TouchableOpacity style={styles.searchResultContainer}>
+                    <TouchableOpacity style={styles.searchResultContainer} onPress={() => this.showModal(eachUser, true)}>
                         <View style={styles.resultContainer}>
-                            <Image style={styles.resultImage} source={{uri: 'https://facebook.github.io/react-native/img/tiny_logo.png'}}/>
+                            <Image style={styles.resultImage} source={{ uri: 'https://facebook.github.io/react-native/img/tiny_logo.png' }} />
                             <View style={styles.petInfoContainer}>
-                            <Text style={{fontSize: 20, fontWeight: 'bold', paddingBottom: 5}}>Alpha</Text>
-                            <Text style={{paddingBottom: 5}}>Breed: Border Collie</Text>
-                            <Text style={{paddingBottom: 5}}>Age: 8 years old</Text>
+                                <Text style={{ fontSize: 20, fontWeight: 'bold', paddingBottom: 5 }}>Alpha</Text>
+                                <Text style={{ paddingBottom: 5 }}>Breed: Border Collie</Text>
+                                <Text style={{ paddingBottom: 5 }}>Age: 8 years old</Text>
                             </View>
                         </View>
                     </TouchableOpacity>
                     {this.displayPets()}
+                    {this.showModal(this.state.currentUser, this.state.showModal)}
                 </ScrollView>
             </View>
         )
@@ -98,18 +123,21 @@ const styles = StyleSheet.create({
     container: {
         marginTop: 50,
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#f7f7f7',
         alignItems: 'center',
         // justifyContent:'center',
     },
-    petInfoContainer:{
+    petInfoContainer: {
         marginLeft: 20,
         // justifyContent: 'center'
     },
-    resultContainer:{
-        flexDirection: "row"
+    resultContainer: {
+        marginLeft: 10,
+        flexDirection: "row",
+        flex: 1,
+        alignItems: 'center'
     },
-    resultImage:{
+    resultImage: {
         width: 50,
         height: 50,
         justifyContent: 'center'
@@ -123,7 +151,7 @@ const styles = StyleSheet.create({
     searchResultContainer: {
         marginTop: 20,
         backgroundColor: 'white',
-        width: 350,
+        width: 390,
         height: 80,
 
         shadowColor: "#000",
