@@ -18,10 +18,10 @@ class Search extends React.Component {
     search: false,
     actualResults: [],
     clickedOnUser: {
-        pets:{
-            name:'Alpha',
-            age: 8
-        }
+      pets: {
+        name: "Alpha",
+        age: 8
+      }
     },
     isModalVisible: true
   };
@@ -84,11 +84,11 @@ class Search extends React.Component {
   setModalFalse = () => {
     this.setState({ isModalVisible: false });
   };
- async showModal(clickedOnUser) {
-     await this.setModalFalse()
-     this.setState({clickedOnUser: clickedOnUser, isModalVisible: true})
-     console.log('clickedOnUser', clickedOnUser)
-  };
+  async showModal(clickedOnUser) {
+    await this.setModalFalse();
+    this.setState({ clickedOnUser: clickedOnUser, isModalVisible: true });
+    console.log("clickedOnUser", clickedOnUser);
+  }
 
   render() {
     return (
@@ -101,12 +101,35 @@ class Search extends React.Component {
         >
           <View style={styles.modal}>
             <View style={styles.dogImageContainer}>
-                <Image
+              <Image
                 style={styles.dogImage}
-                source={{uri:"https://d17fnq9dkz9hgj.cloudfront.net/breed-uploads/2018/09/dog-landing-hero-lg.jpg?bust=1536935129&width=1080"}}/>
+                source={{
+                  uri:
+                    "https://d17fnq9dkz9hgj.cloudfront.net/breed-uploads/2018/09/dog-landing-hero-lg.jpg?bust=1536935129&width=1080"
+                }}
+              />
+              <Text
+                style={{
+                  marginTop: 7,
+                  fontSize: 20,
+                  fontWeight: "bold",
+                  color: "white"
+                }}
+              >
+                Alpha
+              </Text>
             </View>
-            <Text style={{marginLeft: 10, fontSize: 33, fontWeight: 'bold', marginTop: 15}}>{this.state.clickedOnUser.pets.name}</Text>
-            <Text style={{marginLeft: 10, fontSize: 25, marginTop: 10}}>About</Text>
+            <View style={styles.profileNavigator}>
+              <TouchableOpacity style={styles.profileNavigatorButton}>
+                <Text>About</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.profileNavigatorButton}>
+                <Text>About</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.profileNavigatorButton}>
+                <Text>About</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </Modal>
 
@@ -167,22 +190,43 @@ const styles = StyleSheet.create({
     alignItems: "center"
     // justifyContent:'center',
   },
-  dogImage:{
-    width: Dimensions.get('window').width,
-    height: 150
+  dogImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50
   },
-  dogImageContainer:{
-    backgroundColor:'green',
-    width: Dimensions.get('window').width,
-    height: 150
+  dogImageContainer: {
+    backgroundColor: "green",
+    width: Dimensions.get("window").width,
+    height: 150,
+    justifyContent: "center",
+    alignItems: "center"
   },
-  modal:{
+  modal: {
     flex: 1,
-    backgroundColor: '#eaeaea'
+    backgroundColor: "#eaeaea"
   },
   petInfoContainer: {
     marginLeft: 20
     // justifyContent: 'center'
+  },
+  profileNavigator: {
+    flexDirection: "row",
+    backgroundColor: "red",
+    height: 60,
+    width: Dimensions.get("window").width,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  profileNavigatorButton:{
+    marginLeft: 20,
+    marginRight: 20,
+    backgroundColor: 'blue',
+    borderRadius: 20,
+    width: 100,
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   resultContainer: {
     marginLeft: 10,
