@@ -7,7 +7,8 @@ import {
   TextInput,
   Modal,
   TouchableOpacity,
-  Image
+  Image,
+  Dimensions
 } from "react-native";
 import { connect } from "react-redux";
 
@@ -16,16 +17,19 @@ class Search extends React.Component {
     searchCity: "",
     search: false,
     actualResults: [],
-    currentUser: {},
-    isModalVisible: false
+    clickedOnUser: {
+        pets:{
+            name:'Alpha',
+            age: 8
+        }
+    },
+    isModalVisible: true
   };
 
   search = () => {
-    console.log("search func activated");
     let allUsers = this.props.state.allUsers;
     allUsers.map(eachUser => {
       if (eachUser.pets.city === this.state.searchCity) {
-        // console.log('added', eachUser)
         this.state.actualResults.push(eachUser);
       }
     });
@@ -46,7 +50,7 @@ class Search extends React.Component {
           <TouchableOpacity
             style={styles.searchResultContainer}
             key={i}
-            onPress={() => this.showModal()}
+            onPress={() => this.showModal(eachUser)}
           >
             <View style={styles.resultContainer}>
               <Image
@@ -78,17 +82,12 @@ class Search extends React.Component {
   };
 
   setModalFalse = () => {
-    // console.log("making false");
     this.setState({ isModalVisible: false });
-    // console.log("should be false--", this.state.isModalVisible);
-    // return false
   };
- async showModal() {
-    console.log("show modal func");
-    await this.setModalFalse()
-    // console.log('result', makingFalse)
-    this.setState({isModalVisible: true})
-    // console.log('should be true--', this.state.isModalVisible)
+ async showModal(clickedOnUser) {
+     await this.setModalFalse()
+     this.setState({clickedOnUser: clickedOnUser, isModalVisible: true})
+     console.log('clickedOnUser', clickedOnUser)
   };
 
   render() {
@@ -100,8 +99,14 @@ class Search extends React.Component {
           visible={this.state.isModalVisible}
           onDismiss={() => console.log("modal dismissed")}
         >
-          <View style={styles.container}>
-            <Text>Alex</Text>
+          <View style={styles.modal}>
+            <View style={styles.dogImageContainer}>
+                <Image
+                style={styles.dogImage}
+                source={{uri:"https://d17fnq9dkz9hgj.cloudfront.net/breed-uploads/2018/09/dog-landing-hero-lg.jpg?bust=1536935129&width=1080"}}/>
+            </View>
+            <Text style={{marginLeft: 10, fontSize: 33, fontWeight: 'bold', marginTop: 15}}>{this.state.clickedOnUser.pets.name}</Text>
+            <Text style={{marginLeft: 10, fontSize: 25, marginTop: 10}}>About</Text>
           </View>
         </Modal>
 
@@ -161,6 +166,19 @@ const styles = StyleSheet.create({
     backgroundColor: "#f7f7f7",
     alignItems: "center"
     // justifyContent:'center',
+  },
+  dogImage:{
+    width: Dimensions.get('window').width,
+    height: 150
+  },
+  dogImageContainer:{
+    backgroundColor:'green',
+    width: Dimensions.get('window').width,
+    height: 150
+  },
+  modal:{
+    flex: 1,
+    backgroundColor: '#eaeaea'
   },
   petInfoContainer: {
     marginLeft: 20
