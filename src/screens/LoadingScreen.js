@@ -17,7 +17,13 @@ class LoadingScreen extends React.Component {
                 firebase.database().ref(`/users/${user.uid}`).once('value')
                     .then((result) => {
                         this.props.setCurrentUser(result.val())
-                        this.props.navigation.navigate('Navigator')
+                        if(result.val().hasPet === false){
+                            console.log('NO PET NO PET')
+                            this.props.navigation.navigate('AddPetScreen')
+                        }else{
+                            this.props.navigation.navigate('Navigator')
+                        }
+                        
                     })
             }
             else {
