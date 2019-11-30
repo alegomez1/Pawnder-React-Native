@@ -28,7 +28,7 @@ class Search extends React.Component {
         age: 8
       }
     },
-    isModalVisible: true,
+    isModalVisible: false,
     profileView: "about"
   };
 
@@ -125,11 +125,16 @@ class Search extends React.Component {
     }
     //Photos/Activity Tab
     else if (this.state.profileView === "photos") {
-      return <Text>Photos</Text>;
+      return <Text>Photos Page</Text>;
     }
+        //Extra Tab
+        else if (this.state.profileView === "extra") {
+          return <Text>Extra Page</Text>;
+        }
   };
 
   render() {
+    let clickedOnUser = this.state.clickedOnUser
     return (
       <View style={styles.container}>
         <Modal
@@ -159,9 +164,9 @@ class Search extends React.Component {
                   color: "white"
                 }}
               >
-                Alpha
+                {clickedOnUser ? clickedOnUser.pets.name : 'Alpha' }
               </Text>
-              <Text style={{color: '#f2f2f2', fontStyle:'italic'}}>(Border Collie)</Text>
+              <Text style={{color: '#f2f2f2', fontStyle:'italic'}}>{clickedOnUser? clickedOnUser.pets.breed : 'Border Collie'}</Text>
               </LinearGradient>
             </View>
             <View style={styles.profileNavigator}>
@@ -286,7 +291,6 @@ const styles = StyleSheet.create({
   elevation: 2,
 },
   container: {
-    marginTop: 50,
     flex: 1,
     backgroundColor: "#f7f7f7",
     alignItems: "center"
@@ -377,7 +381,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   searchField: {
-    // flexDirection: 'row',
+    marginTop: 50,
     justifyContent: "center",
     alignItems: "center"
   },
