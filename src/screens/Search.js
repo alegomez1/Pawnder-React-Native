@@ -11,6 +11,11 @@ import {
   Dimensions
 } from "react-native";
 import { connect } from "react-redux";
+import { LinearGradient } from "expo-linear-gradient";
+import Icon from 'react-native-vector-icons/Ionicons'
+
+
+
 
 class Search extends React.Component {
   state = {
@@ -18,12 +23,13 @@ class Search extends React.Component {
     search: false,
     actualResults: [],
     clickedOnUser: {
-        pets:{
-            name:'Alpha',
-            age: 8
-        }
+      pets: {
+        name: "Alpha",
+        age: 8
+      }
     },
-    isModalVisible: true
+    isModalVisible: false,
+    profileView: "about"
   };
 
   search = () => {
@@ -84,13 +90,51 @@ class Search extends React.Component {
   setModalFalse = () => {
     this.setState({ isModalVisible: false });
   };
- async showModal(clickedOnUser) {
-     await this.setModalFalse()
-     this.setState({clickedOnUser: clickedOnUser, isModalVisible: true})
-     console.log('clickedOnUser', clickedOnUser)
+
+  async showModal(clickedOnUser) {
+    await this.setModalFalse();
+    this.setState({ clickedOnUser: clickedOnUser, isModalVisible: true });
+    console.log("clickedOnUser", clickedOnUser);
+  }
+
+  profileView = () => {
+    //About Tab
+    if (this.state.profileView === "about") {
+      return (
+        <View style={styles.aboutPageContainer}>
+          <Text style={styles.aboutSectionHeader}>
+              {/* <Icon name="ios-book" size={14} color='black' marginRight={10}/> */}
+           Bio</Text>
+          <View style={styles.bioSectionContainer}>
+            <Text>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, labore et
+              dolore magna aliqua. Suspendisse ultrices gravida dictum fusce ut
+              placerat orci nulla pellentesque. Faucibus vitae aliquet nec
+              ullamcorper sit amet risus nullam.
+            </Text>
+          </View>
+
+          <Text style={styles.aboutSectionHeader}>Breed</Text>
+          <View style={styles.breedSectionContainer}>
+            <Text>
+              Border Collie
+            </Text>
+          </View>
+        </View>
+      );
+    }
+    //Photos/Activity Tab
+    else if (this.state.profileView === "photos") {
+      return <Text>Photos Page</Text>;
+    }
+        //Extra Tab
+        else if (this.state.profileView === "extra") {
+          return <Text>Extra Page</Text>;
+        }
   };
 
   render() {
+    let clickedOnUser = this.state.clickedOnUser
     return (
       <View style={styles.container}>
         <Modal
@@ -101,12 +145,50 @@ class Search extends React.Component {
         >
           <View style={styles.modal}>
             <View style={styles.dogImageContainer}>
-                <Image
+            <LinearGradient 
+            colors={['#4c669f', '#3b5998', '#192f6a']}
+            style={{width: Dimensions.get('window').width, justifyContent: 'center', alignItems: 'center'}}
+            >
+              <Image
                 style={styles.dogImage}
-                source={{uri:"https://d17fnq9dkz9hgj.cloudfront.net/breed-uploads/2018/09/dog-landing-hero-lg.jpg?bust=1536935129&width=1080"}}/>
+                source={{
+                  uri:
+                    "https://d17fnq9dkz9hgj.cloudfront.net/breed-uploads/2018/09/dog-landing-hero-lg.jpg?bust=1536935129&width=1080"
+                }}
+              />
+              <Text
+                style={{
+                  marginTop: 7,
+                  fontSize: 20,
+                  fontWeight: "bold",
+                  color: "white"
+                }}
+              >
+                {clickedOnUser ? clickedOnUser.pets.name : 'Alpha' }
+              </Text>
+              <Text style={{color: '#f2f2f2', fontStyle:'italic'}}>{clickedOnUser? clickedOnUser.pets.breed : 'Border Collie'}</Text>
+              </LinearGradient>
             </View>
-            <Text style={{marginLeft: 10, fontSize: 33, fontWeight: 'bold', marginTop: 15}}>{this.state.clickedOnUser.pets.name}</Text>
-            <Text style={{marginLeft: 10, fontSize: 25, marginTop: 10}}>About</Text>
+            <View style={styles.profileNavigator}>
+              <TouchableOpacity
+                style={[styles.profileNavigatorButtonLeft, this.state.profileView==='about'? styles.profileNavigatorButtonSelected : styles.profileNavigatorButtonNotSelected]}
+                onPress={() => this.setState({ profileView: "about" })}
+              >
+                <Text>About</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.profileNavigatorButtonMiddle, this.state.profileView==='photos'? styles.profileNavigatorButtonSelected : styles.profileNavigatorButtonNotSelected]}
+                onPress={() => this.setState({ profileView: "photos" })}
+              >
+                <Text>Photos</Text>
+              </TouchableOpacity>
+              <TouchableOpacity 
+              style={[styles.profileNavigatorButtonRight, this.state.profileView==='extra'? styles.profileNavigatorButtonSelected : styles.profileNavigatorButtonNotSelected]}
+              onPress={()=> this.setState({profileView: "extra"})}>
+                <Text>Extra</Text>
+              </TouchableOpacity>
+            </View>
+            {this.profileView()}
           </View>
         </Modal>
 
@@ -160,29 +242,132 @@ export default connect(mapStateToProps, {})(Search);
 
 //Styles
 const styles = StyleSheet.create({
+  aboutPageContainer: {
+    flex: 1,
+    paddingTop: 10,
+    // backgroundColor: "#f4f4f4"
+  },
+  aboutSectionHeader: {
+    color: '#4f4f4f',
+    fontSize: 15,
+    marginLeft: 10,
+    marginBottom: 5,
+    fontWeight: 'bold'
+  },
+  bioSectionContainer: {
+      paddingLeft:10,
+      paddingRight: 10,
+    width: Dimensions.get("window").width,
+    height: 80,
+    // backgroundColor: "#ffffff",
+    justifyContent: "center",
+
+    // shadowColor: "#000",
+    // shadowOffset: {
+    //     width: 0,
+    //     height: 1,
+    // },
+    // shadowOpacity: 0.20,
+    // shadowRadius: 1.41,
+    
+    // elevation: 2,
+  },
+  breedSectionContainer: {
+    paddingLeft:10,
+    paddingRight: 10,
+  // width: Dimensions.get("window").width,
+  // height: 25,
+  // backgroundColor: "#ffffff",
+  // justifyContent: "center",
+
+  // shadowColor: "#000",
+  // shadowOffset: {
+  //     width: 0,
+  //     height: 1,
+  // },
+  // shadowOpacity: 0.20,
+  // shadowRadius: 1.41,
+  
+  elevation: 2,
+},
   container: {
-    marginTop: 50,
     flex: 1,
     backgroundColor: "#f7f7f7",
     alignItems: "center"
     // justifyContent:'center',
   },
-  dogImage:{
-    width: Dimensions.get('window').width,
-    height: 150
+  dogImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50
   },
-  dogImageContainer:{
-    backgroundColor:'green',
-    width: Dimensions.get('window').width,
-    height: 150
+  dogImageContainer: {
+    backgroundColor: "green",
+    width: Dimensions.get("window").width,
+    height: 150,
+    justifyContent: "center",
+    alignItems: "center"
   },
-  modal:{
+  modal: {
     flex: 1,
-    backgroundColor: '#eaeaea'
+    backgroundColor: "#eaeaea",
+    alignItems: 'center'
   },
   petInfoContainer: {
     marginLeft: 20
     // justifyContent: 'center'
+  },
+  profileNavigator: {
+    flexDirection: "row",
+    // backgroundColor: "red",
+    marginTop:10,
+    height:35,
+    width: 390,
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  profileNavigatorButtonLeft: {
+    marginLeft: 0,
+    marginRight: 0,
+    backgroundColor: "#eaeaea",
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderWidth: 1,
+    width: 100,
+    height: 30,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  profileNavigatorButtonMiddle: {
+    marginLeft: 0,
+    marginRight: 0,
+    backgroundColor: "#eaeaea",
+    borderRightColor:'black',
+    borderLeftColor: 'black',
+    borderWidth: 1,
+    width: 100,
+    height: 30,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  profileNavigatorButtonRight: {
+    marginLeft: 0,
+    marginRight: 0,
+    backgroundColor: "#eaeaea",
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
+    borderWidth: 1,
+    width: 100,
+    height: 30,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  profileNavigatorButtonSelected:{
+    backgroundColor: '#bfbfbf'
+  },
+  profileNavigatorButtonNotSelected:{
+    backgroundColor: '#eaeaea'
   },
   resultContainer: {
     marginLeft: 10,
@@ -196,7 +381,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   searchField: {
-    // flexDirection: 'row',
+    marginTop: 50,
     justifyContent: "center",
     alignItems: "center"
   },
