@@ -12,6 +12,8 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import { LinearGradient } from "expo-linear-gradient";
+import Icon from 'react-native-vector-icons/Ionicons'
+
 
 
 
@@ -100,7 +102,9 @@ class Search extends React.Component {
     if (this.state.profileView === "about") {
       return (
         <View style={styles.aboutPageContainer}>
-          <Text style={styles.aboutSectionHeader}>Bio</Text>
+          <Text style={styles.aboutSectionHeader}>
+              {/* <Icon name="ios-book" size={14} color='black' marginRight={10}/> */}
+           Bio</Text>
           <View style={styles.bioSectionContainer}>
             <Text>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, labore et
@@ -162,18 +166,20 @@ class Search extends React.Component {
             </View>
             <View style={styles.profileNavigator}>
               <TouchableOpacity
-                style={styles.profileNavigatorButton}
+                style={[styles.profileNavigatorButtonLeft, this.state.profileView==='about'? styles.profileNavigatorButtonSelected : styles.profileNavigatorButtonNotSelected]}
                 onPress={() => this.setState({ profileView: "about" })}
               >
                 <Text>About</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={styles.profileNavigatorButton}
+                style={[styles.profileNavigatorButtonMiddle, this.state.profileView==='photos'? styles.profileNavigatorButtonSelected : styles.profileNavigatorButtonNotSelected]}
                 onPress={() => this.setState({ profileView: "photos" })}
               >
                 <Text>Photos</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.profileNavigatorButton}>
+              <TouchableOpacity 
+              style={[styles.profileNavigatorButtonRight, this.state.profileView==='extra'? styles.profileNavigatorButtonSelected : styles.profileNavigatorButtonNotSelected]}
+              onPress={()=> this.setState({profileView: "extra"})}>
                 <Text>Extra</Text>
               </TouchableOpacity>
             </View>
@@ -234,46 +240,48 @@ const styles = StyleSheet.create({
   aboutPageContainer: {
     flex: 1,
     paddingTop: 10,
-    backgroundColor: "#f4f4f4"
+    // backgroundColor: "#f4f4f4"
   },
   aboutSectionHeader: {
+    color: '#4f4f4f',
     fontSize: 15,
     marginLeft: 10,
     marginBottom: 5,
+    fontWeight: 'bold'
   },
   bioSectionContainer: {
       paddingLeft:10,
       paddingRight: 10,
     width: Dimensions.get("window").width,
     height: 80,
-    backgroundColor: "#ffffff",
+    // backgroundColor: "#ffffff",
     justifyContent: "center",
 
-    shadowColor: "#000",
-    shadowOffset: {
-        width: 0,
-        height: 1,
-    },
-    shadowOpacity: 0.20,
-    shadowRadius: 1.41,
+    // shadowColor: "#000",
+    // shadowOffset: {
+    //     width: 0,
+    //     height: 1,
+    // },
+    // shadowOpacity: 0.20,
+    // shadowRadius: 1.41,
     
-    elevation: 2,
+    // elevation: 2,
   },
   breedSectionContainer: {
     paddingLeft:10,
     paddingRight: 10,
-  width: Dimensions.get("window").width,
-  height: 25,
-  backgroundColor: "#ffffff",
-  justifyContent: "center",
+  // width: Dimensions.get("window").width,
+  // height: 25,
+  // backgroundColor: "#ffffff",
+  // justifyContent: "center",
 
-  shadowColor: "#000",
-  shadowOffset: {
-      width: 0,
-      height: 1,
-  },
-  shadowOpacity: 0.20,
-  shadowRadius: 1.41,
+  // shadowColor: "#000",
+  // shadowOffset: {
+  //     width: 0,
+  //     height: 1,
+  // },
+  // shadowOpacity: 0.20,
+  // shadowRadius: 1.41,
   
   elevation: 2,
 },
@@ -298,7 +306,8 @@ const styles = StyleSheet.create({
   },
   modal: {
     flex: 1,
-    backgroundColor: "#eaeaea"
+    backgroundColor: "#eaeaea",
+    alignItems: 'center'
   },
   petInfoContainer: {
     marginLeft: 20
@@ -306,21 +315,55 @@ const styles = StyleSheet.create({
   },
   profileNavigator: {
     flexDirection: "row",
-    backgroundColor: "red",
-    height: 60,
-    width: Dimensions.get("window").width,
+    // backgroundColor: "red",
+    marginTop:10,
+    height:35,
+    width: 390,
+    borderRadius: 20,
     justifyContent: "center",
     alignItems: "center"
   },
-  profileNavigatorButton: {
-    marginLeft: 20,
-    marginRight: 20,
-    backgroundColor: "blue",
-    borderRadius: 20,
+  profileNavigatorButtonLeft: {
+    marginLeft: 0,
+    marginRight: 0,
+    backgroundColor: "#eaeaea",
+    borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderWidth: 1,
     width: 100,
     height: 30,
     justifyContent: "center",
     alignItems: "center"
+  },
+  profileNavigatorButtonMiddle: {
+    marginLeft: 0,
+    marginRight: 0,
+    backgroundColor: "#eaeaea",
+    borderRightColor:'black',
+    borderLeftColor: 'black',
+    borderWidth: 1,
+    width: 100,
+    height: 30,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  profileNavigatorButtonRight: {
+    marginLeft: 0,
+    marginRight: 0,
+    backgroundColor: "#eaeaea",
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
+    borderWidth: 1,
+    width: 100,
+    height: 30,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  profileNavigatorButtonSelected:{
+    backgroundColor: '#bfbfbf'
+  },
+  profileNavigatorButtonNotSelected:{
+    backgroundColor: '#eaeaea'
   },
   resultContainer: {
     marginLeft: 10,
