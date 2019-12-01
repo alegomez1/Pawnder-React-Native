@@ -95,6 +95,7 @@ class AddPet extends React.Component {
                                 style={styles.aboutTextField}
                                 placeholder="A little more about your pet"
                                 multiline={true}
+                                maxLength={150}
                                 onChangeText={text => this.setBio(text)}
                             />
                             <Text style={{ textAlign: 'right' }}>{this.state.charactersUsed}/150</Text>
@@ -121,10 +122,12 @@ class AddPet extends React.Component {
     }
 
     setBio = (text) => {
-        this.setState({
-            aboutPet: text,
-            charactersUsed: text.length
-        })
+
+            this.setState({
+                aboutPet: text,
+                charactersUsed: text.length
+            })
+
         // console.log('length', text.length)
     }
     render() {
