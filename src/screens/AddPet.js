@@ -1,18 +1,22 @@
 import React from 'react'
-import { View, ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { View, ScrollView, StyleSheet, Text, TouchableOpacity, TextInput, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
 
 import firebase from 'firebase'
-import { TextInput } from 'react-native-gesture-handler'
 import { setHasPet } from '../actions'
 
 class AddPet extends React.Component {
 
     state = {
-        name: '',
-        age:'',
+        name: 'Alpha',
+        age: '',
         breed: '',
+        aboutPet: '',
         city: '',
+        currentScreen: 'about',
+        charactersAllowed: 200,
+        charactersUsed: 0,
+
     }
 
     componentDidMount() {
@@ -39,38 +43,97 @@ class AddPet extends React.Component {
                 this.props.navigation.navigate('LoadingScreen')
             })
     }
+
+    addPetProcess = () => {
+        switch (this.state.currentScreen) {
+            //Pet name and breed
+            case 'start':
+                return (
+                    <View style={[styles.centerAlign]}>
+                        <Text style={styles.pageHeader}>
+                            Who's your pet?</Text>
+                        <TextInput
+                            style={styles.nameTextField}
+                            placeholder='Pet Name'
+                            onChangeText={text => this.setState({ name: text })}
+                        />
+
+                        <TextInput
+                            style={styles.nameTextField}
+                            placeholder='Breed'
+                            onChangeText={text => this.setState({ breed: text })}
+                        />
+
+                        <TextInput
+                            style={styles.nameTextField}
+                            placeholder='Age'
+                            keyboardType="number-pad"
+                            onChangeText={text => this.setState({ age: text })}
+                        />
+
+                        <TextInput
+                            style={styles.nameTextField}
+                            placeholder='City'
+                            onChangeText={text => this.setState({ city: text })}
+                        />
+                        <TouchableOpacity
+                        style={styles.nextButton}
+                            onPress={() => this.setState({ currentScreen: 'about' })}>
+                            <Text style={{fontSize: 14, color:'white', fontWeight:'bold'}}>Next</Text>
+                        </TouchableOpacity>
+
+                    </View>
+                )
+                break;
+            //About your pet
+            case 'about':
+                return (
+                    <View style={[styles.centerAlign]}>
+                        <Text style={styles.pageHeader}>About {this.state.name}</Text>
+                        <View style={styles.aboutContainer}>
+                            <TextInput
+                                style={styles.aboutTextField}
+                                placeholder="A little more about your pet"
+                                multiline={true}
+                                maxLength={150}
+                                onChangeText={text => this.setBio(text)}
+                            />
+                            <Text style={{ textAlign: 'right' }}>{this.state.charactersUsed}/150</Text>
+                        </View>
+
+                        
+                        <TouchableOpacity
+                        style={styles.doneButton}
+                            onPress={() => this.setState({ currentScreen: 'name' })}>
+                            <Text style={{fontSize: 14, color:'white', fontWeight:'bold'}}>Done</Text>
+                        </TouchableOpacity>
+
+                    </View>
+                )
+                break;
+            default:
+                return (
+                    <View style={[styles.centerAlign]}>
+
+                        <Text>Default screen</Text>
+                    </View>
+                )
+        }
+    }
+
+    setBio = (text) => {
+
+            this.setState({
+                aboutPet: text,
+                charactersUsed: text.length
+            })
+
+        // console.log('length', text.length)
+    }
     render() {
         return (
             <View style={styles.container}>
-                <Text>Add Pet Page</Text>
-                {/* Name */}
-                <TextInput style={styles.textBox}
-                    placeholder="name"
-                    onChangeText={text => this.setState({ name: text })}
-                />
-                {/* Age */}
-                <TextInput style={styles.textBox}
-                    placeholder="age"
-                    onChangeText={text => this.setState({ age: text })}
-                />
-                {/* Breed */}
-                <TextInput style={styles.textBox}
-                    placeholder="breed"
-                    onChangeText={text => this.setState({ breed: text })}
-                />
-                {/* City */}
-                <TextInput style={styles.textBox}
-                    placeholder="city"
-                    onChangeText={text => this.setState({ city: text })}
-                />
-                <TouchableOpacity
-                    onPress={() => console.log('state--', this.state)}>
-                    <Text>View State</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={() => this.addPetToDatabase()}>
-                    <Text>Add pet</Text>
-                </TouchableOpacity>
+                {this.addPetProcess()}
             </View>
         )
     }
@@ -85,12 +148,62 @@ export default connect(mapStateToProps, {
 
 //Styles
 const styles = StyleSheet.create({
+    aboutContainer: {
+        marginTop: 130
+        // width: Dimensions.get('window').width,
+        // height: 400,
+        // justifyContent: 'center',
+        // alignItems: 'center',
+        // backgroundColor: 'red'
+    },
+    aboutTextField: {
+        width: 300,
+        height: 90,
+        borderWidth: 1
+    },
+    centerAlign: {
+        flex: 1,
+        alignItems: "center",
+        // justifyContent: 'center'
+    },
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        alignItems: 'center',
+        // alignItems: 'center',
         // justifyContent:'center',
-        paddingTop: 100
+    },
+    doneButton: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#09bf15',
+        width: 90,
+        height: 30,
+        borderRadius: 10,
+        borderWidth: 1
+    },
+    nameTextField: {
+        marginBottom: 30,
+        width: 200,
+        height: 30,
+        borderBottomWidth: 1,
+        borderRadius: 5,
+        textAlign: 'left'
+    },
+    nextButton: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#09bf15',
+        width: 90,
+        height: 30,
+        borderRadius: 10,
+        borderWidth: 1
+    },
+
+    pageHeader: {
+        marginTop: 60,
+        marginBottom: 40,
+        fontSize: 35,
+        fontWeight: 'bold'
     },
     textBox: {
         marginTop: 10,
