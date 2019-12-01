@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { View, ScrollView, StyleSheet, Text, TouchableOpacity, Image } from 'react-native'
 import { connect } from 'react-redux'
 
 import firebase from 'firebase'
@@ -25,8 +25,20 @@ class Pets extends React.Component {
         return (
             <View style={styles.container}>
                 <Text style={styles.pageHeader}>Pets</Text>
-                <Text style={{textAlign:'left', fontSize: 25, fontWeight: 'bold', marginLeft: 20}}>{user.pets.name}</Text>
-
+                <ScrollView>
+                <TouchableOpacity style={styles.petNameButton}>
+                    <View style={styles.petNameContainer}>
+                    <Image
+                style={styles.dogImage}
+                source={{
+                  uri:
+                    "https://d17fnq9dkz9hgj.cloudfront.net/breed-uploads/2018/09/dog-landing-hero-lg.jpg?bust=1536935129&width=1080"
+                }}
+              />
+                        <Text style={{textAlign:'left', fontSize: 25, fontWeight: 'bold', marginLeft: 20}}>{user.pets.name}</Text>
+                    </View>
+                </TouchableOpacity>
+                </ScrollView>
             </View>
         )
     }
@@ -48,13 +60,31 @@ const styles = StyleSheet.create({
         // alignItems: 'center',
         // justifyContent:'center',
     },
+    dogImage: {
+        width: 70,
+        height: 70,
+        borderRadius: 35
+      },
     pageHeader: {
         textAlign: 'center',
         marginTop: 60,
-        marginBottom: 40,
+        marginBottom: 20,
         fontSize: 35,
         fontWeight: 'bold'
     },
-
-
+    petNameButton:{
+        backgroundColor: '#efefef',
+        borderRadius: 10,
+        width: 200,
+        height: 80,
+        marginLeft: 15,
+        // alignItems: 'center',
+        justifyContent: 'center'
+    },
+    petNameContainer:{
+        flexDirection: 'row',
+        alignItems: 'center',
+        // backgroundColor: 'red'
+        marginLeft: 10,
+    },
 })
