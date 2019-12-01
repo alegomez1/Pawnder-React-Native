@@ -107,17 +107,14 @@ class Search extends React.Component {
            Bio</Text>
           <View style={styles.bioSectionContainer}>
             <Text>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, labore et
-              dolore magna aliqua. Suspendisse ultrices gravida dictum fusce ut
-              placerat orci nulla pellentesque. Faucibus vitae aliquet nec
-              ullamcorper sit amet risus nullam.
+              {this.state.clickedOnUser.pets.bio}
             </Text>
           </View>
 
           <Text style={styles.aboutSectionHeader}>Breed</Text>
           <View style={styles.breedSectionContainer}>
             <Text>
-              Border Collie
+             {this.state.clickedOnUser.pets.breed}
             </Text>
           </View>
         </View>

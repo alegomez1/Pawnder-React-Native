@@ -7,8 +7,9 @@ import firebase from 'firebase'
 class Pets extends React.Component {
 
     render() {
+        const user = this.props.state.currentUser
 
-        console.log('in pets', this.props.state.currentUser)
+        // console.log('in pets', this.props.state.currentUser)
         if(!this.props.state.currentUser.hasPet){
             return(
             <View style={styles.container}>
@@ -23,8 +24,9 @@ class Pets extends React.Component {
         }else{
         return (
             <View style={styles.container}>
-                <Text>Pets</Text>
-                <Text>{this.props.state.currentUser.pets.name}</Text>
+                <Text style={styles.pageHeader}>Pets</Text>
+                <Text style={{textAlign:'left', fontSize: 25, fontWeight: 'bold', marginLeft: 20}}>{user.pets.name}</Text>
+
             </View>
         )
     }
@@ -43,8 +45,16 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent:'center',
+        // alignItems: 'center',
+        // justifyContent:'center',
     },
+    pageHeader: {
+        textAlign: 'center',
+        marginTop: 60,
+        marginBottom: 40,
+        fontSize: 35,
+        fontWeight: 'bold'
+    },
+
 
 })
