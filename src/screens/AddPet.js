@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, ScrollView, StyleSheet, Text, TouchableOpacity, TextInput } from 'react-native'
+import { View, ScrollView, StyleSheet, Text, TouchableOpacity, TextInput, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
 
 import firebase from 'firebase'
@@ -8,11 +8,15 @@ import { setHasPet } from '../actions'
 class AddPet extends React.Component {
 
     state = {
-        name: '',
+        name: 'Alpha',
         age: '',
         breed: '',
+        aboutPet: '',
         city: '',
-        currentScreen: 'start'
+        currentScreen: 'about',
+        charactersAllowed: 200,
+        charactersUsed: 0,
+
     }
 
     componentDidMount() {
@@ -47,14 +51,14 @@ class AddPet extends React.Component {
                 return (
                     <View style={[styles.centerAlign]}>
                         <Text style={styles.pageHeader}>
-                            Tell us about your pet</Text>
+                            Who's your pet?</Text>
                         <TextInput
                             style={styles.nameTextField}
                             placeholder='Pet Name'
                             onChangeText={text => this.setState({ name: text })}
                         />
 
-<TextInput
+                        <TextInput
                             style={styles.nameTextField}
                             placeholder='Breed'
                             onChangeText={text => this.setState({ breed: text })}
@@ -67,19 +71,42 @@ class AddPet extends React.Component {
                             onChangeText={text => this.setState({ age: text })}
                         />
 
+                        <TextInput
+                            style={styles.nameTextField}
+                            placeholder='City'
+                            onChangeText={text => this.setState({ city: text })}
+                        />
                         <TouchableOpacity
-                            onPress={() => this.setState({ currentScreen: 'name' })}>
-                            <Text>Next</Text>
+                        style={styles.nextButton}
+                            onPress={() => this.setState({ currentScreen: 'about' })}>
+                            <Text style={{fontSize: 14, color:'white', fontWeight:'bold'}}>Next</Text>
                         </TouchableOpacity>
+
                     </View>
                 )
                 break;
             //About your pet
-            case 'name':
+            case 'about':
                 return (
                     <View style={[styles.centerAlign]}>
+                        <Text style={styles.pageHeader}>About {this.state.name}</Text>
+                        <View style={styles.aboutContainer}>
+                            <TextInput
+                                style={styles.aboutTextField}
+                                placeholder="A little more about your pet"
+                                multiline={true}
+                                onChangeText={text => this.setBio(text)}
+                            />
+                            <Text style={{ textAlign: 'right' }}>{this.state.charactersUsed}/150</Text>
+                        </View>
 
-                        <Text>Name screen</Text>
+                        
+                        <TouchableOpacity
+                        style={styles.doneButton}
+                            onPress={() => this.setState({ currentScreen: 'name' })}>
+                            <Text style={{fontSize: 14, color:'white', fontWeight:'bold'}}>Done</Text>
+                        </TouchableOpacity>
+
                     </View>
                 )
                 break;
@@ -91,6 +118,14 @@ class AddPet extends React.Component {
                     </View>
                 )
         }
+    }
+
+    setBio = (text) => {
+        this.setState({
+            aboutPet: text,
+            charactersUsed: text.length
+        })
+        // console.log('length', text.length)
     }
     render() {
         return (
@@ -110,29 +145,63 @@ export default connect(mapStateToProps, {
 
 //Styles
 const styles = StyleSheet.create({
+    aboutContainer: {
+        marginTop: 130
+        // width: Dimensions.get('window').width,
+        // height: 400,
+        // justifyContent: 'center',
+        // alignItems: 'center',
+        // backgroundColor: 'red'
+    },
+    aboutTextField: {
+        width: 300,
+        height: 90,
+        borderWidth: 1
+    },
     centerAlign: {
-        alignItems: "center"
+        flex: 1,
+        alignItems: "center",
+        // justifyContent: 'center'
     },
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        alignItems: 'center',
+        // alignItems: 'center',
         // justifyContent:'center',
+    },
+    doneButton: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#09bf15',
+        width: 90,
+        height: 30,
+        borderRadius: 10,
+        borderWidth: 1
     },
     nameTextField: {
         marginBottom: 30,
-        width: 150,
+        width: 200,
         height: 30,
         borderBottomWidth: 1,
         borderRadius: 5,
         textAlign: 'left'
     },
-    pageHeader:{
+    nextButton: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#09bf15',
+        width: 90,
+        height: 30,
+        borderRadius: 10,
+        borderWidth: 1
+    },
+
+    pageHeader: {
         marginTop: 60,
         marginBottom: 40,
         fontSize: 35,
         fontWeight: 'bold'
-    },  
+    },
     textBox: {
         marginTop: 10,
         borderWidth: 1,
