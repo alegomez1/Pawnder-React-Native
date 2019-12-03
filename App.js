@@ -8,6 +8,9 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 
 import Icon from 'react-native-vector-icons/Ionicons'
+import Icon2 from 'react-native-vector-icons/FontAwesome5'
+
+
 
 import { createAppContainer, createSwitchNavigator} from 'react-navigation'
 
@@ -32,7 +35,9 @@ const tabNavigator = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel:"Search",
         tabBarIcon:(
-          <Icon marginTop={20} name="ios-star" size={24} color='white'/>
+          // <Icon marginTop={20} name="ios-star" size={24} color='white'/>
+          <Icon2 name='search' size={24} color='white'/>
+
         )
       },
     },
@@ -41,7 +46,9 @@ const tabNavigator = createBottomTabNavigator(
       navigationOptions: {
         tabBarLabel:"Pets",
         tabBarIcon:(
-          <Icon marginTop={20} name="ios-paw" size={24} color='white'/>
+          // <Icon marginTop={20} name="ios-paw" size={24} color='white'/>
+          <Icon2 name='dog' size={24} color='white'/>
+
         )
       },
     },

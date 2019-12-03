@@ -13,6 +13,7 @@ import {
 import { connect } from "react-redux";
 import { LinearGradient } from "expo-linear-gradient";
 import Icon from 'react-native-vector-icons/Ionicons'
+import Icon2 from 'react-native-vector-icons/FontAwesome'
 
 
 
@@ -201,7 +202,8 @@ class Search extends React.Component {
             style={styles.searchButton}
             onPress={() => this.search()}>
             {/* <Text>Search</Text> */}
-            <Icon marginTop={20} name="ios-search" size={30} color='white'/>
+            {/* <Icon fontWeight= 'bold' name="ios-search" size={30} color='white'/> */}
+            <Icon2 name='search' size={23} color='white' />
           </TouchableOpacity>
         </View>
         <ScrollView>
