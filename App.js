@@ -27,21 +27,21 @@ firebase.initializeApp(firebaseConfig)
 const tabNavigator = createBottomTabNavigator(
 
   {
-    Pets:{
-      screen: Pets,
-      navigationOptions: {
-        tabBarLabel:"Pets",
-        tabBarIcon:(
-          <Icon marginTop={20} name="ios-paw" size={24} color='white'/>
-        )
-      },
-    },
     Search:{
       screen: Search,
       navigationOptions: {
         tabBarLabel:"Search",
         tabBarIcon:(
           <Icon marginTop={20} name="ios-star" size={24} color='white'/>
+        )
+      },
+    },
+    Pets:{
+      screen: Pets,
+      navigationOptions: {
+        tabBarLabel:"Pets",
+        tabBarIcon:(
+          <Icon marginTop={20} name="ios-paw" size={24} color='white'/>
         )
       },
     },

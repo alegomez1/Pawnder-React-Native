@@ -10,38 +10,40 @@ class Pets extends React.Component {
         const user = this.props.state.currentUser
 
         // console.log('in pets', this.props.state.currentUser)
-        if(!this.props.state.currentUser.hasPet){
-            return(
-            <View style={styles.container}>
-                <Text>No Pets</Text>
-                <TouchableOpacity
-                onPress={()=> this.props.navigation.navigate('AddPetScreen')}
-                >
-                    <Text>Add a pet</Text>
-                </TouchableOpacity>
-            </View>
+        if (!this.props.state.currentUser.hasPet) {
+            return (
+                <View style={styles.container}>
+                    <Text>No Pets</Text>
+                    <TouchableOpacity
+                        onPress={() => this.props.navigation.navigate('AddPetScreen')}
+                    >
+                        <Text>Add a pet</Text>
+                    </TouchableOpacity>
+                </View>
             )
-        }else{
-        return (
-            <View style={styles.container}>
-                <Text style={styles.pageHeader}>Pets</Text>
-                <ScrollView>
-                <TouchableOpacity style={styles.petNameButton}>
-                    <View style={styles.petNameContainer}>
-                    <Image
-                style={styles.dogImage}
-                source={{
-                  uri:
-                    "https://d17fnq9dkz9hgj.cloudfront.net/breed-uploads/2018/09/dog-landing-hero-lg.jpg?bust=1536935129&width=1080"
-                }}
-              />
-                        <Text style={{textAlign:'left', fontSize: 25, fontWeight: 'bold', marginLeft: 20}}>{user.pets.name}</Text>
-                    </View>
-                </TouchableOpacity>
-                </ScrollView>
-            </View>
-        )
-    }
+        } else {
+            return (
+                <View style={styles.container}>
+                    <Text style={styles.pageHeader}>Pets</Text>
+                    <ScrollView>
+                        <TouchableOpacity
+                            style={styles.petNameButton}
+                            onPress={() => console.log('pressed pet name')}>
+                            <View style={styles.petNameContainer}>
+                                <Image
+                                    style={styles.dogImage}
+                                    source={{
+                                        uri:
+                                            "https://d17fnq9dkz9hgj.cloudfront.net/breed-uploads/2018/09/dog-landing-hero-lg.jpg?bust=1536935129&width=1080"
+                                    }}
+                                />
+                                <Text style={{ textAlign: 'left', fontSize: 25, fontWeight: 'bold', marginLeft: 20 }}>{user.pets.name}</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </ScrollView>
+                </View>
+            )
+        }
     }
 }
 
@@ -64,7 +66,7 @@ const styles = StyleSheet.create({
         width: 70,
         height: 70,
         borderRadius: 35
-      },
+    },
     pageHeader: {
         textAlign: 'center',
         marginTop: 60,
@@ -72,7 +74,7 @@ const styles = StyleSheet.create({
         fontSize: 35,
         fontWeight: 'bold'
     },
-    petNameButton:{
+    petNameButton: {
         backgroundColor: '#efefef',
         borderRadius: 10,
         width: 200,
@@ -81,7 +83,7 @@ const styles = StyleSheet.create({
         // alignItems: 'center',
         justifyContent: 'center'
     },
-    petNameContainer:{
+    petNameContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         // backgroundColor: 'red'
