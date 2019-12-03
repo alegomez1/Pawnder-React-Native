@@ -1,9 +1,14 @@
 import React from 'react'
-import { View, ScrollView, StyleSheet, Text, TouchableOpacity, TextInput, Dimensions } from 'react-native'
+import { View, ScrollView, StyleSheet, Text, TouchableOpacity, TextInput, Dimensions, Image } from 'react-native'
 import { connect } from 'react-redux'
+
+import * as ImagePicker from 'expo-image-picker';
+import Constants from 'expo-constants';
+import * as Permissions from 'expo-permissions';
 
 import firebase from 'firebase'
 import { setHasPet } from '../actions'
+
 
 class AddPet extends React.Component {
 
@@ -16,6 +21,35 @@ class AddPet extends React.Component {
         currentScreen: 'start',
         charactersUsed: 0,
     }
+    
+    getPermissionAsync = async () => {
+        if (Constants.platform.ios) {
+            const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL)
+            if (status !== 'granted') {
+                alert('Sorry, we need camera roll permission')
+            }
+        }
+    }
+    
+    
+        componentDidMount() {
+            this.getPermissionAsync()
+        }
+    pickImage = async () => {
+        console.log('pick image func')
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1
+        });
+        
+        console.log('result----',result);
+
+        if (!result.cancelled) {
+          this.setState({ image: result.uri });
+        }
+    }
 
     addPetToDatabase = () => {
         firebase.database()
@@ -25,7 +59,8 @@ class AddPet extends React.Component {
                 age: this.state.age,
                 breed: this.state.breed,
                 bio: this.state.bio,
-                city: this.state.city.toLocaleLowerCase()
+                city: this.state.city.toLocaleLowerCase(),
+                image: ''
             })
             .then(() => {
                 this.props.setHasPet(true)
@@ -77,6 +112,15 @@ class AddPet extends React.Component {
                             onPress={() => this.setState({ currentScreen: 'about' })}>
                             <Text style={{fontSize: 14, color:'white', fontWeight:'bold'}}>Next</Text>
                         </TouchableOpacity>
+
+                        <TouchableOpacity
+                        style={styles.nextButton}
+                            onPress={() => this.pickImage()}>
+                            <Text style={{fontSize: 14, color:'white', fontWeight:'bold'}}>Pick Image</Text>
+                        </TouchableOpacity>
+
+                        <Image source={{ uri: this.state.image }} style={{ width: 200, height: 200 }} />
+                        
 
                     </View>
                 )
