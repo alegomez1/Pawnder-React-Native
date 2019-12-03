@@ -11,17 +11,12 @@ class AddPet extends React.Component {
         name: 'Alpha',
         age: '',
         breed: '',
-        aboutPet: '',
+        bio: '',
         city: '',
-        currentScreen: 'about',
-        charactersAllowed: 200,
+        currentScreen: 'start',
         charactersUsed: 0,
-
     }
 
-    componentDidMount() {
-
-    }
     addPetToDatabase = () => {
         firebase.database()
             .ref(`/users/${this.props.state.currentUser.uid}/pets`)
@@ -29,6 +24,7 @@ class AddPet extends React.Component {
                 name: this.state.name,
                 age: this.state.age,
                 breed: this.state.breed,
+                bio: this.state.bio,
                 city: this.state.city.toLocaleLowerCase()
             })
             .then(() => {
@@ -95,16 +91,15 @@ class AddPet extends React.Component {
                                 style={styles.aboutTextField}
                                 placeholder="A little more about your pet"
                                 multiline={true}
-                                maxLength={150}
+                                maxLength={250}
                                 onChangeText={text => this.setBio(text)}
                             />
-                            <Text style={{ textAlign: 'right' }}>{this.state.charactersUsed}/150</Text>
+                            <Text style={{ textAlign: 'right' }}>{this.state.charactersUsed}/250</Text>
                         </View>
 
-                        
                         <TouchableOpacity
                         style={styles.doneButton}
-                            onPress={() => this.setState({ currentScreen: 'name' })}>
+                            onPress={() => this.addPetToDatabase()}>
                             <Text style={{fontSize: 14, color:'white', fontWeight:'bold'}}>Done</Text>
                         </TouchableOpacity>
 
@@ -124,7 +119,7 @@ class AddPet extends React.Component {
     setBio = (text) => {
 
             this.setState({
-                aboutPet: text,
+                bio: text,
                 charactersUsed: text.length
             })
 
@@ -157,8 +152,8 @@ const styles = StyleSheet.create({
         // backgroundColor: 'red'
     },
     aboutTextField: {
-        width: 300,
-        height: 90,
+        width: 320,
+        height: 120,
         borderWidth: 1
     },
     centerAlign: {

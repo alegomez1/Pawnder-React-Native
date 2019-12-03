@@ -13,6 +13,7 @@ import {
 import { connect } from "react-redux";
 import { LinearGradient } from "expo-linear-gradient";
 import Icon from 'react-native-vector-icons/Ionicons'
+import Icon2 from 'react-native-vector-icons/FontAwesome'
 
 
 
@@ -107,17 +108,14 @@ class Search extends React.Component {
            Bio</Text>
           <View style={styles.bioSectionContainer}>
             <Text>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, labore et
-              dolore magna aliqua. Suspendisse ultrices gravida dictum fusce ut
-              placerat orci nulla pellentesque. Faucibus vitae aliquet nec
-              ullamcorper sit amet risus nullam.
+              {this.state.clickedOnUser.pets.bio}
             </Text>
           </View>
 
           <Text style={styles.aboutSectionHeader}>Breed</Text>
           <View style={styles.breedSectionContainer}>
             <Text>
-              Border Collie
+             {this.state.clickedOnUser.pets.breed}
             </Text>
           </View>
         </View>
@@ -194,14 +192,18 @@ class Search extends React.Component {
 
         <View style={styles.searchField}>
           <TextInput
-            style={styles.textbox}
+            style={styles.searchTextInput}
             placeholder="city"
             onChangeText={text =>
               this.setState({ searchCity: text.toLocaleLowerCase() })
             }
           />
-          <TouchableOpacity onPress={() => this.search()}>
-            <Text>Search</Text>
+          <TouchableOpacity
+            style={styles.searchButton}
+            onPress={() => this.search()}>
+            {/* <Text>Search</Text> */}
+            {/* <Icon fontWeight= 'bold' name="ios-search" size={30} color='white'/> */}
+            <Icon2 name='search' size={23} color='white' />
           </TouchableOpacity>
         </View>
         <ScrollView>
@@ -380,10 +382,44 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: "center"
   },
+  searchButton:{
+    backgroundColor: '#2d7fe2',
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    // borderRightWidth: 1,
+    // borderLeftWidth: 1,
+    // borderTopWidth: 1,
+    // borderBottomWidth: 1,
+
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+
+    elevation: 2
+  },
   searchField: {
+    flexDirection:'row',
     marginTop: 50,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+
+    elevation: 2
+
+    
   },
   searchResultContainer: {
     marginTop: 20,
@@ -401,13 +437,21 @@ const styles = StyleSheet.create({
 
     elevation: 2
   },
-  textbox: {
-    marginRight: 10,
+  searchTextInput: {
+    // marginRight: 10,
     textAlign: "center",
     width: 300,
     height: 40,
     borderColor: "black",
-    borderWidth: 1,
-    borderRadius: 10
+    // borderLeftWidth: 1,
+    // borderTopWidth: 1,
+    // borderBottomWidth: 1,
+    backgroundColor: 'white',
+
+
+
+
+    // borderWidth: 1,
+    // borderRadius: 10
   }
 });
