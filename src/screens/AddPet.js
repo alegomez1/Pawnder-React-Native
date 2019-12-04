@@ -51,14 +51,23 @@ class AddPet extends React.Component {
             this.setState({ image: result.uri });
             let newURL = result.uri.replace('file:///', "")
             console.log('new URL-----', newURL)
-            this.uploadImage(newURL)
+            this.uploadImage(result)
         }
     }
 
     uploadImage = async (image) => {
         const files = image
         const data = new FormData()
-        data.append('file', files)
+
+
+        // data.append('file', files)
+        
+
+        data.append('file', {
+            uri: image.uri,
+            type: 'image/jpeg',
+            name: 'testPhoto'
+        })
         data.append('upload_preset', 'pawnderImage')
         const res = await fetch(
             'https://api.cloudinary.com/v1_1/pawnder/image/upload',
