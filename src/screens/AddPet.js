@@ -21,7 +21,7 @@ class AddPet extends React.Component {
         currentScreen: 'start',
         charactersUsed: 0,
     }
-    
+
     getPermissionAsync = async () => {
         if (Constants.platform.ios) {
             const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL)
@@ -30,26 +30,48 @@ class AddPet extends React.Component {
             }
         }
     }
-    
-    
-        componentDidMount() {
-            this.getPermissionAsync()
-        }
+
+
+    componentDidMount() {
+        this.getPermissionAsync()
+    }
+
+
     pickImage = async () => {
-        console.log('pick image func')
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
             aspect: [4, 3],
             quality: 1
         });
-        
-        console.log('result----',result);
+
+        console.log('result----', result);
 
         if (!result.cancelled) {
-          this.setState({ image: result.uri });
+            this.setState({ image: result.uri });
+            let newURL = result.uri.replace('file:///', "")
+            console.log('new URL-----', newURL)
+            this.uploadImage(newURL)
         }
     }
+
+    uploadImage = async (image) => {
+        const files = image
+        const data = new FormData()
+        data.append('file', files)
+        data.append('upload_preset', 'pawnderImage')
+        const res = await fetch(
+            'https://api.cloudinary.com/v1_1/pawnder/image/upload',
+            {
+              method: 'POST',
+              body: data,
+            }
+        )
+        const file = await res.json()
+        console.log('file-----', file)
+    }
+
+
 
     addPetToDatabase = () => {
         firebase.database()
@@ -108,19 +130,19 @@ class AddPet extends React.Component {
                             onChangeText={text => this.setState({ city: text })}
                         />
                         <TouchableOpacity
-                        style={styles.nextButton}
+                            style={styles.nextButton}
                             onPress={() => this.setState({ currentScreen: 'about' })}>
-                            <Text style={{fontSize: 14, color:'white', fontWeight:'bold'}}>Next</Text>
+                            <Text style={{ fontSize: 14, color: 'white', fontWeight: 'bold' }}>Next</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity
-                        style={styles.nextButton}
+                            style={styles.nextButton}
                             onPress={() => this.pickImage()}>
-                            <Text style={{fontSize: 14, color:'white', fontWeight:'bold'}}>Pick Image</Text>
+                            <Text style={{ fontSize: 14, color: 'white', fontWeight: 'bold' }}>Pick Image</Text>
                         </TouchableOpacity>
 
                         <Image source={{ uri: this.state.image }} style={{ width: 200, height: 200 }} />
-                        
+
 
                     </View>
                 )
@@ -142,9 +164,9 @@ class AddPet extends React.Component {
                         </View>
 
                         <TouchableOpacity
-                        style={styles.doneButton}
+                            style={styles.doneButton}
                             onPress={() => this.addPetToDatabase()}>
-                            <Text style={{fontSize: 14, color:'white', fontWeight:'bold'}}>Done</Text>
+                            <Text style={{ fontSize: 14, color: 'white', fontWeight: 'bold' }}>Done</Text>
                         </TouchableOpacity>
 
                     </View>
@@ -162,10 +184,10 @@ class AddPet extends React.Component {
 
     setBio = (text) => {
 
-            this.setState({
-                bio: text,
-                charactersUsed: text.length
-            })
+        this.setState({
+            bio: text,
+            charactersUsed: text.length
+        })
 
         // console.log('length', text.length)
     }
