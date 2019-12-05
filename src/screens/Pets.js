@@ -34,7 +34,7 @@ class Pets extends React.Component {
                                     style={styles.dogImage}
                                     source={{
                                         uri:
-                                            "https://d17fnq9dkz9hgj.cloudfront.net/breed-uploads/2018/09/dog-landing-hero-lg.jpg?bust=1536935129&width=1080"
+                                            user.pets.petPhotoURL
                                     }}
                                 />
                                 <Text style={{ textAlign: 'left', fontSize: 25, fontWeight: 'bold', marginLeft: 20 }}>{user.pets.name}</Text>
