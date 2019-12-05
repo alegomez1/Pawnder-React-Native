@@ -51,18 +51,13 @@ class AddPet extends React.Component {
             this.setState({ image: result.uri });
             let newURL = result.uri.replace('file:///', "")
             console.log('new URL-----', newURL)
-            this.uploadImage(result)
+            this.uploadDogImage(result)
         }
     }
 
-    uploadImage = async (image) => {
+    uploadDogImage = async (image) => {
         const files = image
         const data = new FormData()
-
-
-        // data.append('file', files)
-        
-
         data.append('file', {
             uri: image.uri,
             type: 'image/jpeg',
@@ -80,7 +75,25 @@ class AddPet extends React.Component {
         console.log('file-----', file)
     }
 
-
+    uploadUserImage = async (image) => {
+        const files = image
+        const data = new FormData()
+        data.append('file', {
+            uri: image.uri,
+            type: 'image/jpeg',
+            name: 'testPhoto'
+        })
+        data.append('upload_preset', 'pawnderImage')
+        const res = await fetch(
+            'https://api.cloudinary.com/v1_1/pawnder/image/upload',
+            {
+              method: 'POST',
+              body: data,
+            }
+        )
+        const file = await res.json()
+        console.log('file-----', file)
+    }
 
     addPetToDatabase = () => {
         firebase.database()
@@ -197,8 +210,6 @@ class AddPet extends React.Component {
             bio: text,
             charactersUsed: text.length
         })
-
-        // console.log('length', text.length)
     }
     render() {
         return (
@@ -220,11 +231,6 @@ export default connect(mapStateToProps, {
 const styles = StyleSheet.create({
     aboutContainer: {
         marginTop: 130
-        // width: Dimensions.get('window').width,
-        // height: 400,
-        // justifyContent: 'center',
-        // alignItems: 'center',
-        // backgroundColor: 'red'
     },
     aboutTextField: {
         width: 320,
