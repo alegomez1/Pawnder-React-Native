@@ -18,6 +18,8 @@ class AddPet extends React.Component {
         breed: '',
         bio: '',
         city: '',
+        petPhotoURL: '',
+        petPhoto: false,
         currentScreen: 'start',
         charactersUsed: 0,
     }
@@ -69,8 +71,7 @@ class AddPet extends React.Component {
         const file = await res.json()
             .then((result) => {
                 console.log('photo url-----', result.url)
-                firebase.database().ref(`/users/${this.props.state.currentUser.uid}/pets`)
-                .update({ petPhotoURL: result.url })
+                this.setState({petPhotoURL: result.url, petPhoto: true})
         })
     }
 
@@ -103,7 +104,8 @@ class AddPet extends React.Component {
                 breed: this.state.breed,
                 bio: this.state.bio,
                 city: this.state.city.toLocaleLowerCase(),
-                image: ''
+                petPhotoURL: this.state.petPhotoURL,
+                petPhoto: this.state.petPhoto
             })
             .then(() => {
                 this.props.setHasPet(true)
