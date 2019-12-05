@@ -60,7 +60,7 @@ class Search extends React.Component {
             <View style={styles.resultContainer}>
               <Image
                 style={styles.resultImage}
-                source={{
+                source={eachUser.pets.petPhoto ? { uri: eachUser.pets.petPhotoURL } : {
                   uri:
                     "https://facebook.github.io/react-native/img/tiny_logo.png"
                 }}
@@ -381,7 +381,6 @@ const styles = StyleSheet.create({
     shadowRadius: 1.41,
 
     elevation: 2
-
     
   },
   searchResultContainer: {
