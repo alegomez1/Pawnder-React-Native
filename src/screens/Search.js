@@ -16,8 +16,6 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import Icon2 from 'react-native-vector-icons/FontAwesome'
 
 
-
-
 class Search extends React.Component {
   state = {
     searchCity: "",
@@ -26,7 +24,9 @@ class Search extends React.Component {
     clickedOnUser: {
       pets: {
         name: "Alpha",
-        age: 8
+        age: 8,
+        petPhoto: false,
+        petPhotoURL: ''
       }
     },
     isModalVisible: false,
@@ -51,8 +51,6 @@ class Search extends React.Component {
         eachUser.pets.city === this.state.searchCity &&
         this.state.search === true
       ) {
-        // console.log("display func called");
-
         return (
           <TouchableOpacity
             style={styles.searchResultContainer}
@@ -62,7 +60,7 @@ class Search extends React.Component {
             <View style={styles.resultContainer}>
               <Image
                 style={styles.resultImage}
-                source={{
+                source={eachUser.pets.petPhoto ? { uri: eachUser.pets.petPhotoURL } : {
                   uri:
                     "https://facebook.github.io/react-native/img/tiny_logo.png"
                 }}
@@ -104,7 +102,6 @@ class Search extends React.Component {
       return (
         <View style={styles.aboutPageContainer}>
           <Text style={styles.aboutSectionHeader}>
-              {/* <Icon name="ios-book" size={14} color='black' marginRight={10}/> */}
            Bio</Text>
           <View style={styles.bioSectionContainer}>
             <Text>
@@ -148,11 +145,11 @@ class Search extends React.Component {
             style={{width: Dimensions.get('window').width, justifyContent: 'center', alignItems: 'center'}}
             >
               <Image
-                style={styles.dogImage}
-                source={{
-                  uri:
-                    "https://d17fnq9dkz9hgj.cloudfront.net/breed-uploads/2018/09/dog-landing-hero-lg.jpg?bust=1536935129&width=1080"
-                }}
+                  style={styles.dogImage}
+                  source={clickedOnUser.pets.petPhoto ? { uri: clickedOnUser.pets.petPhotoURL } : {
+                    uri:
+                      "https://d17fnq9dkz9hgj.cloudfront.net/breed-uploads/2018/09/dog-landing-hero-lg.jpg?bust=1536935129&width=1080"
+                  }}
               />
               <Text
                 style={{
@@ -201,8 +198,6 @@ class Search extends React.Component {
           <TouchableOpacity
             style={styles.searchButton}
             onPress={() => this.search()}>
-            {/* <Text>Search</Text> */}
-            {/* <Icon fontWeight= 'bold' name="ios-search" size={30} color='white'/> */}
             <Icon2 name='search' size={23} color='white' />
           </TouchableOpacity>
         </View>
@@ -247,7 +242,6 @@ const styles = StyleSheet.create({
   aboutPageContainer: {
     flex: 1,
     paddingTop: 10,
-    // backgroundColor: "#f4f4f4"
   },
   aboutSectionHeader: {
     color: '#4f4f4f',
@@ -261,42 +255,16 @@ const styles = StyleSheet.create({
       paddingRight: 10,
     width: Dimensions.get("window").width,
     height: 80,
-    // backgroundColor: "#ffffff",
     justifyContent: "center",
-
-    // shadowColor: "#000",
-    // shadowOffset: {
-    //     width: 0,
-    //     height: 1,
-    // },
-    // shadowOpacity: 0.20,
-    // shadowRadius: 1.41,
-    
-    // elevation: 2,
   },
   breedSectionContainer: {
     paddingLeft:10,
     paddingRight: 10,
-  // width: Dimensions.get("window").width,
-  // height: 25,
-  // backgroundColor: "#ffffff",
-  // justifyContent: "center",
-
-  // shadowColor: "#000",
-  // shadowOffset: {
-  //     width: 0,
-  //     height: 1,
-  // },
-  // shadowOpacity: 0.20,
-  // shadowRadius: 1.41,
-  
-  elevation: 2,
 },
   container: {
     flex: 1,
     backgroundColor: "#f7f7f7",
     alignItems: "center"
-    // justifyContent:'center',
   },
   dogImage: {
     width: 100,
@@ -388,11 +356,6 @@ const styles = StyleSheet.create({
     height: 40,
     justifyContent: 'center',
     alignItems: 'center',
-    // borderRightWidth: 1,
-    // borderLeftWidth: 1,
-    // borderTopWidth: 1,
-    // borderBottomWidth: 1,
-
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -418,7 +381,6 @@ const styles = StyleSheet.create({
     shadowRadius: 1.41,
 
     elevation: 2
-
     
   },
   searchResultContainer: {
@@ -438,20 +400,10 @@ const styles = StyleSheet.create({
     elevation: 2
   },
   searchTextInput: {
-    // marginRight: 10,
     textAlign: "center",
     width: 300,
     height: 40,
     borderColor: "black",
-    // borderLeftWidth: 1,
-    // borderTopWidth: 1,
-    // borderBottomWidth: 1,
     backgroundColor: 'white',
-
-
-
-
-    // borderWidth: 1,
-    // borderRadius: 10
   }
 });

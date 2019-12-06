@@ -1,9 +1,14 @@
 import React from 'react'
-import { View, ScrollView, StyleSheet, Text, TouchableOpacity, TextInput, Dimensions } from 'react-native'
+import { View, ScrollView, StyleSheet, Text, TouchableOpacity, TextInput, Dimensions, Image } from 'react-native'
 import { connect } from 'react-redux'
+
+import * as ImagePicker from 'expo-image-picker';
+import Constants from 'expo-constants';
+import * as Permissions from 'expo-permissions';
 
 import firebase from 'firebase'
 import { setHasPet } from '../actions'
+
 
 class AddPet extends React.Component {
 
@@ -13,8 +18,81 @@ class AddPet extends React.Component {
         breed: '',
         bio: '',
         city: '',
+        petPhotoURL: '',
+        petPhoto: false,
         currentScreen: 'start',
         charactersUsed: 0,
+    }
+
+    getPermissionAsync = async () => {
+        if (Constants.platform.ios) {
+            const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL)
+            if (status !== 'granted') {
+                alert('Sorry, we need camera roll permission')
+            }
+        }
+    }
+
+
+    componentDidMount() {
+        this.getPermissionAsync()
+    }
+
+
+    pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1
+        });
+
+        if (!result.cancelled) {
+            this.uploadDogImage(result)
+        }
+    }
+
+    uploadDogImage = async (image) => {
+        const files = image
+        const data = new FormData()
+        data.append('file', {
+            uri: image.uri,
+            type: 'image/jpeg',
+            name: 'testPhoto'
+        })
+        data.append('upload_preset', 'pawnderImage')
+        const res = await fetch(
+            'https://api.cloudinary.com/v1_1/pawnder/image/upload',
+            {
+                method: 'POST',
+                body: data,
+            }
+        )
+        const file = await res.json()
+            .then((result) => {
+                console.log('photo url-----', result.url)
+                this.setState({petPhotoURL: result.url, petPhoto: true})
+        })
+    }
+
+    uploadUserImage = async (image) => {
+        const files = image
+        const data = new FormData()
+        data.append('file', {
+            uri: image.uri,
+            type: 'image/jpeg',
+            name: 'testPhoto'
+        })
+        data.append('upload_preset', 'pawnderImage')
+        const res = await fetch(
+            'https://api.cloudinary.com/v1_1/pawnder/image/upload',
+            {
+                method: 'POST',
+                body: data,
+            }
+        )
+        const file = await res.json()
+        console.log('file-----', file)
     }
 
     addPetToDatabase = () => {
@@ -25,7 +103,9 @@ class AddPet extends React.Component {
                 age: this.state.age,
                 breed: this.state.breed,
                 bio: this.state.bio,
-                city: this.state.city.toLocaleLowerCase()
+                city: this.state.city.toLocaleLowerCase(),
+                petPhotoURL: this.state.petPhotoURL,
+                petPhoto: this.state.petPhoto
             })
             .then(() => {
                 this.props.setHasPet(true)
@@ -72,11 +152,24 @@ class AddPet extends React.Component {
                             placeholder='City'
                             onChangeText={text => this.setState({ city: text })}
                         />
+
                         <TouchableOpacity
-                        style={styles.nextButton}
-                            onPress={() => this.setState({ currentScreen: 'about' })}>
-                            <Text style={{fontSize: 14, color:'white', fontWeight:'bold'}}>Next</Text>
+                            style={styles.uploadImageButton}
+                            onPress={() => this.pickImage()}>
+                            <Text style={{ fontSize: 14, color: 'white', fontWeight: 'bold' }}>Pick Image</Text>
                         </TouchableOpacity>
+
+
+                        <TouchableOpacity
+                            style={styles.nextButton}
+                            onPress={() => this.setState({ currentScreen: 'about' })}>
+                            <Text style={{ fontSize: 14, color: 'white', fontWeight: 'bold' }}>Next</Text>
+                        </TouchableOpacity>
+
+
+
+                        <Image source={{ uri: this.state.image }} style={{ width: 200, height: 200 }} />
+
 
                     </View>
                 )
@@ -98,9 +191,9 @@ class AddPet extends React.Component {
                         </View>
 
                         <TouchableOpacity
-                        style={styles.doneButton}
+                            style={styles.doneButton}
                             onPress={() => this.addPetToDatabase()}>
-                            <Text style={{fontSize: 14, color:'white', fontWeight:'bold'}}>Done</Text>
+                            <Text style={{ fontSize: 14, color: 'white', fontWeight: 'bold' }}>Done</Text>
                         </TouchableOpacity>
 
                     </View>
@@ -118,12 +211,10 @@ class AddPet extends React.Component {
 
     setBio = (text) => {
 
-            this.setState({
-                bio: text,
-                charactersUsed: text.length
-            })
-
-        // console.log('length', text.length)
+        this.setState({
+            bio: text,
+            charactersUsed: text.length
+        })
     }
     render() {
         return (
@@ -145,11 +236,6 @@ export default connect(mapStateToProps, {
 const styles = StyleSheet.create({
     aboutContainer: {
         marginTop: 130
-        // width: Dimensions.get('window').width,
-        // height: 400,
-        // justifyContent: 'center',
-        // alignItems: 'center',
-        // backgroundColor: 'red'
     },
     aboutTextField: {
         width: 320,
@@ -208,6 +294,16 @@ const styles = StyleSheet.create({
         height: 40,
         textAlign: 'center',
         fontSize: 20
-    }
+    },
+    uploadImageButton:{
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#ed9049',
+        width: 90,
+        height: 30,
+        borderRadius: 10,
+        borderWidth: 1,
+        marginBottom: 15,
+    },
 
 })

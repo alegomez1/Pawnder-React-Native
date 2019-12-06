@@ -18,7 +18,6 @@ class LoadingScreen extends React.Component {
                     .then((result) => {
                         this.props.setCurrentUser(result.val())
                         if(result.val().hasPet === false){
-                            console.log('NO PET NO PET')
                             this.props.navigation.navigate('AddPetScreen')
                         }else{
                             this.props.navigation.navigate('Navigator')
