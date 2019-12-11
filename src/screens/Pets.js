@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, ScrollView, StyleSheet, Text, TouchableOpacity, Image } from 'react-native'
+import { View, ScrollView, StyleSheet, Text, TouchableOpacity, Image, Dimensions } from 'react-native'
 import { connect } from 'react-redux'
 
 import firebase from 'firebase'
@@ -37,7 +37,7 @@ class Pets extends React.Component {
                                             user.pets.petPhotoURL
                                     }}
                                 />
-                                <Text style={{ textAlign: 'left', fontSize: 25, fontWeight: 'bold', marginLeft: 20 }}>{user.pets.name}</Text>
+                                <Text style={{ textAlign: 'center', fontSize: 35, fontWeight: 'bold', marginLeft: 20 }}>{user.pets.name}</Text>
                             </View>
                         </TouchableOpacity>
                     </ScrollView>
@@ -59,8 +59,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        // alignItems: 'center',
-        // justifyContent:'center',
+        alignItems: "center"
     },
     dogImage: {
         width: 70,
@@ -77,16 +76,15 @@ const styles = StyleSheet.create({
     petNameButton: {
         backgroundColor: '#efefef',
         borderRadius: 10,
-        width: 200,
-        height: 80,
-        marginLeft: 15,
-        // alignItems: 'center',
+        width: Dimensions.get('window').width - 50,
+        height: 120,
+        // marginLeft: 15,
         justifyContent: 'center'
     },
     petNameContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        // backgroundColor: 'red'
         marginLeft: 10,
+        // backgroundColor: 'red'
     },
 })
