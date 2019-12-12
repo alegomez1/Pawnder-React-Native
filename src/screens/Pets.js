@@ -3,9 +3,14 @@ import { View, ScrollView, StyleSheet, Text, TouchableOpacity, Image, Dimensions
 import { connect } from 'react-redux'
 
 import firebase from 'firebase'
-import { bold } from 'ansi-colors'
+// import { bold } from 'ansi-colors'
+
 
 class Pets extends React.Component {
+
+    addPetFunction = () => {
+        console.log('add pet func called')
+    }
 
     render() {
         const user = this.props.state.currentUser
@@ -50,7 +55,7 @@ class Pets extends React.Component {
                         {/* Add pet button */}
                         <TouchableOpacity
                             style={styles.addPetButton}
-                            onPress={() => console.log('pressed pet name')}>
+                            onPress={() => this.addPetFunction()}>
                             <View style={styles.addPetContainer}>
                                 <Text style={{ textAlign: 'center', fontSize: 35, fontWeight: 'bold', marginLeft: 20 }}>+ Add Pet</Text>
                             </View>
