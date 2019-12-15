@@ -3,19 +3,22 @@ import { View, ScrollView, StyleSheet, Text, TouchableOpacity, Image, Dimensions
 import { connect } from 'react-redux'
 
 import firebase from 'firebase'
-// import { bold } from 'ansi-colors'
-
 
 class Pets extends React.Component {
 
     addPetFunction = () => {
         console.log('add pet func called')
+        firebase.database()
+        .ref(`/users/${this.props.state.currentUser.uid}/pets`)
+        .push({
+            name: 'SECOND PET',
+            age: 44
+        })
     }
 
     render() {
         const user = this.props.state.currentUser
 
-        // console.log('in pets', this.props.state.currentUser)
         if (!this.props.state.currentUser.hasPet) {
             return (
                 <View style={styles.container}>
