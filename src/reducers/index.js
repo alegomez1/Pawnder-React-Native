@@ -14,7 +14,35 @@ const isLoggedIn = (loggedIn=true, action)=>{
     return loggedIn
 }
 
+const uid = (uid='123', action) => {
+    if(action.type === 'SET_UID'){
+        return action.payload
+    }
+    return uid
+}
+const currentUser = (currentUser='user', action)=> {
+    if(action.type === 'SET_USER'){
+        return action.payload
+    }
+    return currentUser
+}
+const userHasPet = (hasPet=false, action) => {
+    if(action.type === 'SET_HAS_PET'){
+        return action.payload
+    }
+    return hasPet
+}
+const allUsers = (allUsers=[], action)=>{
+    if(action.type === 'SET_ALL_USERS'){
+        return action.payload
+    }
+    return allUsers
+}
 export default combineReducers({
     changeName,
-    isLoggedIn
+    isLoggedIn,
+    uid,
+    userHasPet,
+    currentUser,
+    allUsers
 })

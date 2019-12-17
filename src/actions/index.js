@@ -10,3 +10,27 @@ export const login = (login) => {
         payload: login
     }
 }
+export const setUID = (uid) => {
+    return{
+        type: 'SET_UID',
+        payload: uid
+    }
+}
+export const setCurrentUser = (currentUser) => {
+    return{
+        type: 'SET_USER',
+        payload: currentUser
+    }
+}
+export const setHasPet = (hasPet) => {
+    return{
+        type: 'SET_HAS_PET',
+        payload: hasPet
+    }
+}
+export const setAllUsers = (allUsers) => {
+    return{
+        type: 'SET_ALL_USERS',
+        payload: allUsers
+    }
+}

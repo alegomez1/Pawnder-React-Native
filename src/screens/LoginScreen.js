@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
+import { setUID, setHasPet } from '../actions'
 
 import * as Google from 'expo-google-app-auth';
 // import * as GoogleSignIn from 'expo-google-sign-in';
@@ -24,7 +25,7 @@ class LoginScreen extends React.Component {
       }
 
      onSignIn = (googleUser) => {
-        console.log('Google Auth Response', googleUser);
+        // console.log('Google Auth Response', googleUser);
         // We need to register an Observer on Firebase Auth to make sure auth is initialized.
         var unsubscribe = firebase.auth().onAuthStateChanged(function(firebaseUser) {
           unsubscribe();
@@ -36,7 +37,7 @@ class LoginScreen extends React.Component {
                 googleUser.accessToken)
             // Sign in with credential from the Google user
             firebase.auth().signInWithCredential(credential).then((result)=>{
-                console.log('user signed in', result)
+                // console.log('user signed in', result)
                 if(result.additionalUserInfo.isNewUser){
 
                     firebase.database()
@@ -47,10 +48,13 @@ class LoginScreen extends React.Component {
                         locale: result.additionalUserInfo.profile.locale,
                         first_name: result.additionalUserInfo.profile.given_name,
                         last_name: result.additionalUserInfo.profile.family_name,
-                        created_at: Date.now()
+                        created_at: Date.now(),
+                        hasPet: false,
+                        uid: result.user.uid
                     })
                     .then(()=>{
-                        console.log('created user in database')
+                        // console.log('created user in database')
+                        
                     }).catch((err)=>{
                         console.log(err)
                     })
@@ -59,7 +63,12 @@ class LoginScreen extends React.Component {
                     firebase.database()
                     .ref('/users/' + result.user.uid).update({
                         last_logged_in: Date.now()
-                    }).then(()=>{console.log('updated user')})
+                    }).then(()=>{
+                        // console.log('updated user', result.user.uid)
+                        this.props.setUID(result.user.uid)
+                        this.props.setHasPet(result.user.hasPet)
+                        // console.log('props----', this.props)
+                    })
                 }
                 })
                 .catch(function(error) {
@@ -77,8 +86,6 @@ class LoginScreen extends React.Component {
           }
         }.bind(this));
       }
-
-
 
     // Sign in with google function
     signInWithGoogleAsync = async() => {
@@ -120,7 +127,7 @@ const mapStateToProps = (state) => {
     return { state }
 }
 export default connect(mapStateToProps, {
-
+setUID
 })(LoginScreen)
 
 //Styles
@@ -129,7 +136,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent:'center',
     },
 
 })
