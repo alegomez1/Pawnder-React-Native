@@ -8,6 +8,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Dimensions
 } from 'react-native';
 
 import { connect } from 'react-redux'
@@ -17,7 +18,7 @@ import firebase from 'firebase'
 
 class HomeScreen extends React.Component {
 
-  componentDidMount(){
+  componentDidMount() {
 
   }
 
@@ -26,7 +27,12 @@ class HomeScreen extends React.Component {
 
     return (
       <View style={styles.container}>
-        <Text>Home page</Text>
+        <View style={styles.headerView}>
+          <Text style={styles.pageHeader}>Home
+      </Text>
+
+        </View>
+
       </View>
     );
   }
@@ -48,8 +54,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent:'center',
+    alignItems: "center",
+    // justifyContent: 'center'
+  },
+  headerView: {
+    width: Dimensions.get('window').width,
+    // backgroundColor: 'red',
+  },
+  pageHeader: {
+    textAlign: 'center',
+    marginTop: 60,
+    marginBottom: 20,
+    fontSize: 35,
+    fontWeight: 'bold'
   },
 
 });
