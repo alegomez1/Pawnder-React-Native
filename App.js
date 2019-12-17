@@ -30,6 +30,15 @@ firebase.initializeApp(firebaseConfig)
 const tabNavigator = createBottomTabNavigator(
 
   {
+    Settings:{
+      screen: SettingsScreen,
+      navigationOptions: {
+        tabBarLabel:"Settings",
+        tabBarIcon:(
+          <Icon marginTop={20} name="ios-settings" size={24} color='white'/>
+        )
+      },
+    },
     Home:{
       screen: HomeScreen,
       navigationOptions: {
@@ -64,15 +73,6 @@ const tabNavigator = createBottomTabNavigator(
         )
       },
     },
-        Settings:{
-          screen: SettingsScreen,
-          navigationOptions: {
-            tabBarLabel:"Settings",
-            tabBarIcon:(
-              <Icon marginTop={20} name="ios-settings" size={24} color='white'/>
-            )
-          },
-        },
       },
       {
         tabBarOptions: {

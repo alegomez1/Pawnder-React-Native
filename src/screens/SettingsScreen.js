@@ -26,11 +26,11 @@ class SettingsScreen extends React.Component {
         <View style={styles.headerView}>
           <Text style={styles.pageHeader}>Settings
 </Text>
-
         </View>
         <TouchableOpacity
+          style={styles.signOutButton}
           onPress={() => firebase.auth().signOut()}>
-          <Text>Sign out</Text>
+          <Text style={{fontSize: 18, fontWeight: 'bold', color:'white'}}>Sign out</Text>
         </TouchableOpacity>
       </View>
     );
@@ -65,6 +65,14 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     fontSize: 35,
     fontWeight: 'bold'
+  },
+  signOutButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'red',
+    width: 100,
+    height: 40,
+    borderRadius: 15
   },
 
 });
